@@ -1,13 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const MONGO_URI =
-  "mongodb://osamamatter390_db_user:QxDg4ur0gSSAGf5b@ac-1kq2nt9-shard-00-00.sinmsue.mongodb.net:27017,ac-1kq2nt9-shard-00-01.sinmsue.mongodb.net:27017,ac-1kq2nt9-shard-00-02.sinmsue.mongodb.net:27017/TransportationProject?ssl=true&replicaSet=atlas-6zxqi3-shard-0&authSource=admin";
+const MONGO_URI = process.env.MONGO_URI;
+
 
 mongoose
   .connect(MONGO_URI)
