@@ -45,3 +45,27 @@ API_KEY=your_api_key_here
 
 ## Notes
 Make sure to keep sensitive values such as API keys and secret keys in the `.env` file and do not share them publicly.
+
+```
+Transportation-booking-
+├─ Model
+│  ├─ Booking.js
+│  ├─ Driver.js
+│  ├─ Review.js
+│  ├─ Route.js
+│  ├─ Station.js
+│  ├─ Trip.js
+│  ├─ User.js
+│  └─ Vehicle.js
+├─ README.md
+├─ controllers
+│  └─ user.js
+├─ index.js
+├─ middleware
+│  └─ CORS.js
+├─ package-lock.json
+├─ package.json
+└─ routes
+   └─ user.js
+
+```
