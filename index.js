@@ -3,11 +3,16 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const reviewRoutes = require("./routes/review.routes");
 const vehicleRoutes = require("./routes/vehiclesRoutes");
+const stationRoutes = require("./routes/stationRoutes");
+const routeRoutes = require("./routes/routeRoutes");
 
 const app = express();
 app.use(express.json());
 app.use("/reviews", reviewRoutes);
 app.use("/vehicles", vehicleRoutes);
+app.use("/stations", stationRoutes);
+app.use("/routes", routeRoutes);
+
 const port = process.env.PORT ;
 
 
