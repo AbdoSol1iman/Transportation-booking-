@@ -12,20 +12,23 @@ const bookingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+    index: true,
   },
   tripId: {
     type: Schema.Types.ObjectId,
     ref: 'Trip',
     required: true,
+    index: true,
   },
   passengers: {
     type: Number,
     required: true,
-    min: 1,
+    min: [1, 'Passengers count must be at least 1'],
   },
   totalPrice: {
     type: Number,
     required: true,
+    min: [0, 'Total price cannot be negative'],
   },
   paymentMethod: {
     type: String,
@@ -36,14 +39,18 @@ const bookingSchema = new Schema({
     type: String,
     enum: ['pending', 'paid', 'failed', 'refunded'],
     default: 'pending',
+    index: true,
   },
   status: {
     type: String,
     enum: ['confirmed', 'cancelled', 'completed'],
     default: 'confirmed',
+    index: true,
   },
 }, {
-  timestamps: { createdAt: 'bookedAt', updatedAt: false },
+  timestamps: true,
 });
+
+bookingSchema.index({ userId: 1, status: 1 });
 
 module.exports = mongoose.model('Booking', bookingSchema);
