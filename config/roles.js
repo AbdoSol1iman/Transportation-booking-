@@ -1,0 +1,51 @@
+const ROLES = {
+  PASSENGER: 'passenger',
+  DRIVER: 'driver',
+  DISPATCHER: 'dispatcher',
+  ADMIN: 'admin',
+};
+
+const PERMISSIONS = {
+  MANAGE_USERS: 'manage_users',
+  VIEW_USERS: 'view_users',
+  MANAGE_STATIONS: 'manage_stations',
+  MANAGE_ROUTES: 'manage_routes',
+  MANAGE_VEHICLES: 'manage_vehicles',
+  MANAGE_DRIVERS: 'manage_drivers',
+  CREATE_TRIP: 'create_trip',
+  UPDATE_TRIP: 'update_trip',
+  DELETE_TRIP: 'delete_trip',
+  UPDATE_TRIP_STATUS: 'update_trip_status',
+  BOOK_SEAT: 'book_seat',
+  VIEW_OWN_BOOKINGS: 'view_own_bookings',
+  CANCEL_OWN_BOOKING: 'cancel_own_booking',
+  MANAGE_ALL_BOOKINGS: 'manage_all_bookings',
+  CREATE_REVIEW: 'create_review',
+  MANAGE_REVIEWS: 'manage_reviews',
+};
+
+const ROLE_PERMISSIONS = {
+  [ROLES.PASSENGER]: [
+    PERMISSIONS.BOOK_SEAT,
+    PERMISSIONS.VIEW_OWN_BOOKINGS,
+    PERMISSIONS.CANCEL_OWN_BOOKING,
+    PERMISSIONS.CREATE_REVIEW,
+  ],
+  [ROLES.DRIVER]: [
+    PERMISSIONS.VIEW_OWN_BOOKINGS,
+    PERMISSIONS.UPDATE_TRIP_STATUS,
+  ],
+  [ROLES.DISPATCHER]: [
+    PERMISSIONS.MANAGE_STATIONS,
+    PERMISSIONS.MANAGE_ROUTES,
+    PERMISSIONS.MANAGE_VEHICLES,
+    PERMISSIONS.MANAGE_DRIVERS,
+    PERMISSIONS.CREATE_TRIP,
+    PERMISSIONS.UPDATE_TRIP,
+    PERMISSIONS.UPDATE_TRIP_STATUS,
+    PERMISSIONS.MANAGE_ALL_BOOKINGS,
+  ],
+  [ROLES.ADMIN]: Object.values(PERMISSIONS),
+};
+
+module.exports = { ROLES, PERMISSIONS, ROLE_PERMISSIONS };
