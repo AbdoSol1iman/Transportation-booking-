@@ -2,11 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const reviewRoutes = require("./routes/review.routes");
+const tripRoutes = require("./routes/trip");
 const vehicleRoutes = require("./routes/vehiclesRoutes");
 
 const app = express();
 app.use(express.json());
 app.use("/reviews", reviewRoutes);
+app.use("/trips", tripRoutes);
 app.use("/vehicles", vehicleRoutes);
 const port = process.env.PORT ;
 
