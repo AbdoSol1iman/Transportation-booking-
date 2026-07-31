@@ -1,0 +1,5 @@
+{
+  "api_testing_summary": {
+    "base_url": "http://localhost:3000/api/v1"
+  }
+}
