@@ -16,6 +16,7 @@ const vehicleSchema = new Schema({
   capacity: {
     type: Number,
     required: true,
+    min: [1, 'Capacity must be at least 1'],
   },
   vehicleType: {
     type: String,
@@ -26,7 +27,10 @@ const vehicleSchema = new Schema({
     type: String,
     enum: ['active', 'maintenance', 'inactive'],
     default: 'active',
+    index: true,
   },
+}, {
+  timestamps: true,
 });
 
 module.exports = mongoose.model('Vehicle', vehicleSchema);
