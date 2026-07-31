@@ -32,16 +32,21 @@ const driverSchema = new Schema({
   experienceYears: {
     type: Number,
     default: 0,
+    min: 0,
   },
   tripsCount: {
     type: Number,
     default: 0,
+    min: 0,
   },
   status: {
     type: String,
     enum: ['available', 'onTrip', 'offline'],
     default: 'available',
+    index: true,
   },
+}, {
+  timestamps: true,
 });
 
 module.exports = mongoose.model('Driver', driverSchema);
