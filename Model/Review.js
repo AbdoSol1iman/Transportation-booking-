@@ -6,11 +6,13 @@ const reviewSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+    index: true,
   },
   tripId: {
     type: Schema.Types.ObjectId,
     ref: 'Trip',
     required: true,
+    index: true,
   },
   rating: {
     type: Number,
@@ -21,9 +23,12 @@ const reviewSchema = new Schema({
   comment: {
     type: String,
     trim: true,
+    required: false,
   },
 }, {
-  timestamps: { createdAt: 'createdAt', updatedAt: false },
+  timestamps: true,
 });
+
+reviewSchema.index({ userId: 1, tripId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

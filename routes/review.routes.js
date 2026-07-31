@@ -1,26 +1,23 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-
 const {
   AddReview,
   getReview,
   getReviewById,
   updateReview,
   deleteReview,
-} = require("../controllers/Reviews");
+} = require('../controllers/Reviews');
+const { protect } = require('../middleware/auth');
+const validate = require('../middleware/validate');
+const { createReviewSchema } = require('../validations/schemas');
 
-// Create
-router.post("/", AddReview);
+router.get('/', getReview);
+router.get('/:id', getReviewById);
 
-// Read All
-router.get("/", getReview);
+router.use(protect);
 
-// Read One
-router.get("/:id", getReviewById);
+router.post('/', validate(createReviewSchema), AddReview);
+router.patch('/:id', updateReview);
+router.delete('/:id', deleteReview);
 
-// Update
-router.patch("/:id", updateReview);
-
-//delete 
-router.delete("/:id", deleteReview);
 module.exports = router;
