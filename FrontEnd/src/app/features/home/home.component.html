@@ -1,0 +1,200 @@
+<app-navbar></app-navbar>
+
+<main class="w-full pt-20 bg-background min-h-screen font-cairo">
+  <div class="flex flex-col w-full min-w-0 overflow-x-hidden">
+    
+    <!-- Hero Section with Ultra High-Res Cyber Bus Background -->
+    <div class="relative w-full h-[88vh] min-h-[620px] flex flex-col justify-center items-center text-center -mt-20 pt-24 bg-surface-dim overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-700" style="background-image: url('/hero-bg.png'), url('assets/images/hero-bg.png')">
+      
+      <!-- Smooth Vignette Overlay to Dim Background Contrast for Eye Comfort -->
+      <div class="absolute inset-0 bg-gradient-to-b from-background/90 via-background/75 to-background pointer-events-none"></div>
+      <div class="absolute inset-0 bg-radial-gradient from-transparent via-background/60 to-background pointer-events-none"></div>
+
+      <!-- Animated Ambient Neon Orbs -->
+      <div class="absolute top-1/4 right-1/4 w-[450px] h-[450px] bg-primary/20 rounded-full blur-[140px] mix-blend-screen pointer-events-none"></div>
+      <div class="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-secondary/15 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
+      
+      <!-- Hero Glassmorphism Content Box (Eye-Comfortable Legibility) -->
+      <div class="relative z-10 flex flex-col items-center px-4 w-full max-w-4xl">
+        
+        <div class="bg-surface-container-lowest/80 backdrop-blur-2xl p-8 sm:p-12 rounded-[2.5rem] border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] flex flex-col items-center">
+          
+          <!-- Live Status Pill Badge -->
+          <div class="flex items-center gap-2.5 mb-6 px-5 py-2 bg-surface-container-high/80 backdrop-blur-xl rounded-full border border-white/15 shadow-inner">
+            <span class="h-2.5 w-2.5 rounded-full bg-secondary shadow-[0_0_12px_#c3f400] animate-ping"></span>
+            <span class="font-cairo text-xs font-black text-secondary tracking-wide">حل أزمة المواصلات والمواقف الرسمية</span>
+          </div>
+          
+          <!-- Main Headline -->
+          <h1 class="font-cairo text-3xl sm:text-5xl md:text-[54px] md:leading-[1.2] font-black text-on-background max-w-3xl mb-5 drop-shadow-[0_5px_15px_rgba(0,0,0,0.9)]" dir="rtl">
+            احجز مكانك من <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary via-lime-300 to-secondary drop-shadow-[0_0_20px_rgba(195,244,0,0.4)]">موقف السلام</span><br/>
+            والمواقف الرئيسية بدون زحام!
+          </h1>
+          
+          <!-- Subtitle -->
+          <p class="font-cairo text-sm sm:text-base text-on-surface-variant max-w-2xl text-center leading-relaxed font-semibold" dir="rtl">
+            منصة حجز وتتبع حركة الميكروباصات والحافلات بين المحافظات. احجز كرسيك مسبقاً، واعرف مواعيد الخروج من موقف السلام ورمسيس والعباسية والوجه البحري فوراً.
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Floating Glassmorphism Station Search Bar -->
+    <div class="relative z-30 w-full max-w-6xl mx-auto px-4 sm:px-6 -mt-28 mb-16">
+      <div class="bg-surface-container-low/80 backdrop-blur-3xl rounded-3xl p-6 md:p-8 flex flex-col md:flex-row gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden border border-white/15" dir="rtl">
+        
+        <!-- Subtle Neon Radial Highlight inside Card -->
+        <div class="absolute -top-20 -right-20 w-60 h-60 bg-primary/20 rounded-full blur-[70px] pointer-events-none"></div>
+
+        <div class="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4 w-full relative z-10">
+          
+          <!-- From Station -->
+          <div class="w-full relative">
+            <label class="font-cairo text-xs font-black text-secondary block mb-2 tracking-wide">من موقف إيه؟</label>
+            <div class="relative w-full h-14 flex items-center bg-surface-container-highest/90 rounded-2xl px-3.5 border border-white/10 hover:border-primary/60 transition-all shadow-inner">
+              <span class="material-symbols-outlined text-primary ml-2 text-xl">location_on</span>
+              <select class="w-full bg-transparent outline-none text-on-surface font-cairo text-sm font-bold cursor-pointer">
+                <option value="salam" class="bg-surface-container-highest text-on-surface">موقف السلام الرئيسي</option>
+                <option value="ramses" class="bg-surface-container-highest text-on-surface">موقف رمسيس</option>
+                <option value="abbassia" class="bg-surface-container-highest text-on-surface">موقف العباسية</option>
+                <option value="marg" class="bg-surface-container-highest text-on-surface">موقف المرج الجديد</option>
+                <option value="giza" class="bg-surface-container-highest text-on-surface">موقف الجيزة والمنيب</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- To Destination -->
+          <div class="w-full relative">
+            <label class="font-cairo text-xs font-black text-secondary block mb-2 tracking-wide">رايح محافظة إيه؟</label>
+            <div class="relative w-full h-14 flex items-center bg-surface-container-highest/90 rounded-2xl px-3.5 border border-white/10 hover:border-primary/60 transition-all shadow-inner">
+              <span class="material-symbols-outlined text-primary ml-2 text-xl">near_me</span>
+              <select class="w-full bg-transparent outline-none text-on-surface font-cairo text-sm font-bold cursor-pointer">
+                <option value="alex" class="bg-surface-container-highest text-on-surface">الإسكندرية (محرم بك)</option>
+                <option value="mansoura" class="bg-surface-container-highest text-on-surface">المنصورة (الموقف الجديد)</option>
+                <option value="tanta" class="bg-surface-container-highest text-on-surface">طنطا (موقف جابر)</option>
+                <option value="ismailia" class="bg-surface-container-highest text-on-surface">الإسماعيلية</option>
+                <option value="suez" class="bg-surface-container-highest text-on-surface">السويس</option>
+                <option value="asyut" class="bg-surface-container-highest text-on-surface">أسيوط (الموقف الإقليمي)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Travel Date -->
+          <div class="w-full relative">
+            <label class="font-cairo text-xs font-black text-secondary block mb-2 tracking-wide">تاريخ الرحلة</label>
+            <div class="relative w-full h-14 flex items-center bg-surface-container-highest/90 rounded-2xl px-3.5 border border-white/10 hover:border-primary/60 transition-all shadow-inner">
+              <span class="material-symbols-outlined text-primary ml-2 text-xl">calendar_month</span>
+              <input class="w-full bg-transparent outline-none text-on-surface font-cairo text-sm font-bold" type="text" value="اليوم (رحلات فورية)" />
+            </div>
+          </div>
+
+          <!-- Passengers / Seats -->
+          <div class="w-full relative">
+            <label class="font-cairo text-xs font-black text-secondary block mb-2 tracking-wide">عدد المقاعد المطلوب</label>
+            <div class="relative w-full h-14 flex items-center bg-surface-container-highest/90 rounded-2xl px-3.5 border border-white/10 hover:border-primary/60 transition-all shadow-inner">
+              <span class="material-symbols-outlined text-primary ml-2 text-xl">airline_seat_recline_extra</span>
+              <select class="w-full bg-transparent outline-none text-on-surface font-cairo text-sm font-bold cursor-pointer">
+                <option value="1" class="bg-surface-container-highest text-on-surface">مقعد واحد (١)</option>
+                <option value="2" class="bg-surface-container-highest text-on-surface">مقعدين (٢)</option>
+                <option value="3" class="bg-surface-container-highest text-on-surface">٣ مقاعد</option>
+                <option value="4" class="bg-surface-container-highest text-on-surface">٤ مقاعد (صف كامل)</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex items-end relative z-10 w-full md:w-auto">
+          <a routerLink="/trips" class="w-full md:w-auto h-14 px-8 bg-gradient-to-br from-primary via-indigo-600 to-indigo-700 rounded-2xl font-cairo text-base font-black text-white shadow-[0_0_25px_rgba(79,70,229,0.7)] hover:shadow-[0_0_35px_rgba(79,70,229,0.9)] hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2.5 whitespace-nowrap">
+            <span class="material-symbols-outlined text-2xl">search</span>
+            <span>ابحث عن الخطوط الفاضية</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Active Transport Lines Bento Grid -->
+    <section class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
+      
+      <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6" dir="rtl">
+        <div>
+          <h2 class="font-cairo text-3xl font-extrabold text-on-background mb-2 flex items-center gap-2">
+            <span>أكثر خطوط المواقف طلبًا اليوم</span>
+            <span class="text-secondary">🚌</span>
+          </h2>
+          <p class="font-cairo text-sm text-on-surface-variant">متابعة فورية لحركة الميكروباص والأتوبيسات في موقف السلام والمواقف الرئيسية.</p>
+        </div>
+        
+        <a routerLink="/trips" class="font-cairo text-xs font-bold text-primary hover:text-secondary transition-colors flex items-center gap-2 group">
+          <span>عرض جميع خطوط السير والمواقف</span>
+          <span class="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform rotate-180">arrow_forward</span>
+        </a>
+      </div>
+
+      <!-- Bento Grid Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[300px]">
+        
+        <!-- Feature Card 1: El-Salam -> Alex -->
+        <div routerLink="/trips" class="md:col-span-8 row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl border border-border-subtle">
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3gLMkWusYRE1HOnO5tfE6DpSBm8cX2Af1BCFt39wZSDambGbI0MUmzISbkc7at6xUmz1fA9miER4JS3db6LvX0z5BgD15fTuW2eDfj7Z18KSWbamec9pJLbn-3-uB2PX05w3uQJrQNv6tfBNuUpZsSYssnesusG8jsCIPok7DdiEIM_Osaxp4nMgpVnq2xCxtpwW0P8k_QW9zwKDRwg9q__2mjBKbd_v8jWv00h29Tod3d4cVs4iEDw')"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent opacity-90"></div>
+          
+          <div class="absolute bottom-0 w-full p-8 flex flex-col justify-end z-10" dir="rtl">
+            <div class="flex flex-wrap gap-3 mb-4">
+              <span class="px-4 py-1.5 rounded-full bg-secondary text-on-secondary font-cairo text-xs font-extrabold shadow-lg">⚡ خط رئيسي مباشر</span>
+              <span class="px-4 py-1.5 rounded-full bg-surface/60 backdrop-blur-md text-on-surface font-cairo text-xs font-bold">🚐 ميكروباص سقف عالي مكيف</span>
+            </div>
+            
+            <div class="flex justify-between items-end">
+              <div>
+                <h3 class="font-cairo text-3xl font-black text-on-surface mb-2">موقف السلام ➔ الإسكندرية (محرم بك)</h3>
+                <p class="font-cairo text-xs text-on-surface-variant flex items-center gap-2 font-semibold">
+                  <span class="material-symbols-outlined text-sm text-secondary">schedule</span>
+                  <span>عربيات طالعة كل ١٥ دقيقة • متبقي مقاعد متفرقة</span>
+                </p>
+              </div>
+              <div class="text-left">
+                <span class="font-cairo text-xs text-on-surface-variant block mb-1">أجرة الكرسي</span>
+                <span class="font-cairo text-3xl font-black text-secondary">EGP 75</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Square Card 2: El-Salam -> Mansoura -->
+        <div routerLink="/trips" class="md:col-span-4 row-span-1 relative rounded-3xl overflow-hidden group cursor-pointer shadow-lg border border-border-subtle">
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAIoNVHuf5YrrfePQS9UCoUDu5zpD70wwZXj1Oa49VqwHtKzm6vZ2nBb7v-ADZxKjUt-HFgGdo-EjwWghbUPOkiBR68kK7krF16X_cEEIy5ZCaSu_lwHiu-eA8CgVIGgjKVkIFAGVkJ6LNtVqsGV7WS0n1qc-K5f6U5aQwPL3uDn1oE-gzo5aXny5GTglZW5vuZOTaChtOGz2A5v3k19iwKx7sixurk4fZ10U0yQ5EkQyoX64LTR87svA')"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
+          
+          <div class="absolute bottom-0 w-full p-6" dir="rtl">
+            <span class="inline-block mb-2 px-3 py-1 rounded-full bg-primary text-white font-cairo text-xs font-bold shadow-lg">🚌 اتوبيس شرق الدلتا</span>
+            <h3 class="font-cairo text-xl font-black text-on-surface mb-1">موقف السلام ➔ المنصورة</h3>
+            <p class="font-cairo text-lg font-bold text-secondary">EGP 55</p>
+          </div>
+        </div>
+
+        <!-- Square Card 3: Ramses -> Tanta -->
+        <div routerLink="/trips" class="md:col-span-4 row-span-1 relative rounded-3xl overflow-hidden group cursor-pointer shadow-lg border border-border-subtle">
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1zkjg-EBFEPwn27I000i5RGB8Bedtke6FqOB4sAVoOLKYXx_cbr-xANixaJ9n96b6HfoD0z5Ld_HH95RoA3LYtFWe3bdnx8zx9pdKqNkCxJ3z5RPCeKNymmPSw99NCTXlDMi8ATAhwxOdKq3CHiqYV5zO1rRvmYyrF-HpLPyo3ltfWh8YKwk2m4RHnVwJh9-kVH72Rsq-Et_oEGrMzSppcTRu4sdMT-r_SJpEhC_hTnvkE6wINiNPHg')"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
+          
+          <div class="absolute bottom-0 w-full p-6" dir="rtl">
+            <span class="inline-block mb-2 px-3 py-1 rounded-full bg-secondary text-on-secondary font-cairo text-xs font-bold shadow-lg">✨ حجز مسبق ومقعد مضمون</span>
+            <h3 class="font-cairo text-xl font-black text-on-surface mb-1">موقف رمسيس ➔ طنطا</h3>
+            <p class="font-cairo text-lg font-bold text-secondary">EGP 45</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<app-footer></app-footer>
+

@@ -1,0 +1,106 @@
+<div class="min-h-screen w-full flex bg-background font-cairo text-on-surface" dir="rtl">
+  
+  <!-- Right Side (Form) -->
+  <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 sm:p-12 lg:p-24 relative z-10">
+    
+    <!-- Optional Home Link -->
+    <a routerLink="/" class="absolute top-8 right-8 text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2">
+      <span class="material-symbols-outlined text-xl">arrow_forward</span>
+      <span class="text-sm font-bold">العودة للرئيسية</span>
+    </a>
+
+    <div class="w-full max-w-md flex flex-col gap-8">
+      
+      <!-- Logo -->
+      <div class="flex items-center justify-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(79,70,229,0.5)]">
+          <span class="material-symbols-outlined text-white text-xl">directions_bus</span>
+        </div>
+        <h1 class="font-cairo text-2xl font-black text-on-surface tracking-wide">رود-بوكينج</h1>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex w-full border-b border-white/10 mt-2">
+        <a routerLink="/login" class="w-1/2 text-center pb-4 border-b-2 border-primary text-primary font-black text-lg">تسجيل الدخول</a>
+        <a routerLink="/register" class="w-1/2 text-center pb-4 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-bold text-lg transition-colors">حساب جديد</a>
+      </div>
+
+      <!-- Welcome Text -->
+      <div class="text-center mt-2">
+        <h2 class="text-3xl font-black text-on-surface mb-2">مرحباً بعودتك</h2>
+        <p class="text-sm font-bold text-on-surface-variant">الرجاء إدخال بياناتك للمتابعة.</p>
+      </div>
+
+      <!-- Form -->
+      <form class="flex flex-col gap-5 mt-4" (submit)="$event.preventDefault()">
+        
+        <!-- Email Input -->
+        <div class="flex flex-col gap-2 relative group">
+          <label class="text-xs font-black text-on-surface-variant text-right">البريد الإلكتروني</label>
+          <div class="relative">
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors">mail</span>
+            <input type="email" placeholder="example@mail.com" class="w-full bg-surface-container-low border border-white/10 rounded-xl pr-12 pl-4 py-3.5 text-sm text-on-surface focus:border-primary focus:bg-surface-container transition-all outline-none text-left" dir="ltr" />
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="flex flex-col gap-2 relative group mt-1">
+          <label class="text-xs font-black text-on-surface-variant text-right">كلمة المرور</label>
+          <div class="relative">
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors">lock</span>
+            <input type="password" placeholder="••••••••" class="w-full bg-surface-container-low border border-white/10 rounded-xl pr-12 pl-12 py-3.5 text-sm text-on-surface focus:border-primary focus:bg-surface-container transition-all outline-none text-left" dir="ltr" />
+            <button type="button" class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors">
+              <span class="material-symbols-outlined text-sm">visibility_off</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="flex items-center justify-between mt-2">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="remember" class="w-4 h-4 accent-primary rounded cursor-pointer border-white/10 bg-surface-container" />
+            <label for="remember" class="text-xs font-bold text-on-surface cursor-pointer">تذكرني</label>
+          </div>
+          <a href="#" class="text-xs font-bold text-primary hover:text-indigo-400 transition-colors">نسيت كلمة المرور؟</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full py-4 mt-4 rounded-xl bg-gradient-to-r from-primary to-indigo-600 text-white font-cairo font-black text-base shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
+          <span>تسجيل الدخول</span>
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-4 mt-2">
+        <div class="h-px bg-white/10 flex-1"></div>
+        <span class="text-xs font-bold text-on-surface-variant">أو المتابعة عبر</span>
+        <div class="h-px bg-white/10 flex-1"></div>
+      </div>
+
+      <!-- Google Auth -->
+      <button type="button" class="w-full py-3.5 rounded-xl bg-surface-container border border-white/10 hover:border-white/30 hover:bg-surface-container-high transition-all flex items-center justify-center gap-3">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5" />
+        <span class="font-cairo font-bold text-sm text-on-surface">Google</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Left Side (Image Cover) -->
+  <div class="hidden lg:flex w-1/2 relative bg-surface-container-lowest overflow-hidden items-end justify-start p-16">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop')"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+    <div class="absolute inset-0 bg-primary/10 mix-blend-color-burn"></div>
+    
+    <div class="relative z-10 max-w-xl text-right">
+      <h2 class="text-5xl font-black text-white leading-tight mb-4 drop-shadow-lg">
+        رحلة مريحة وآمنة إلى <br/> <span class="text-secondary drop-shadow-[0_0_15px_rgba(195,244,0,0.5)]">وجهتك</span>
+      </h2>
+      <p class="text-lg font-bold text-on-surface-variant leading-relaxed">
+        انضم إلى آلاف المسافرين الذين يثقون في رود-بوكينج لتجربة سفر لا تُنسى عبر مدن ومحافظات مصر.
+      </p>
+    </div>
+  </div>
+
+</div>
+

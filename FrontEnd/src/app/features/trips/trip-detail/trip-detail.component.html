@@ -1,0 +1,209 @@
+<app-navbar></app-navbar>
+
+<main class="w-full pt-20 bg-background min-h-screen font-cairo" dir="rtl">
+  <div class="flex flex-col w-full relative min-h-screen bg-background text-on-background">
+    
+    <!-- Hero / Gallery Section -->
+    <section class="relative w-full h-[500px] lg:h-[620px] -mt-20 z-0">
+      <!-- Background Cover Image -->
+      <div class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPuDBkbxRvlVZfUq0w-CE0LdH16KrpRqoefeMwNycH98KHjonveBe_GTm4Qu4_f_1YVaXGmpSVypHXzDLeQYjFruUzDaiWj_W-5u4gUNeae1nhcFeB6xLE3PmuLLB3cg0oPgY5M3zhBhjiVlIZteQUJbpVif13ezOgaQLwXZ-O4SpJ5E3_RC0ovBkkqCUfFe2ytkLoLnNgNrYt4lX1x6cb7b7rtMya03H8ixeUmfY7BTMhqKtfDtvegw')"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
+      
+      <!-- Floating Glass Gallery Overlay (Bottom Right) -->
+      <div class="absolute bottom-8 right-6 md:right-12 flex gap-4 overflow-x-auto snap-x pr-4 z-10 w-full md:w-auto">
+        <div class="h-24 w-32 md:h-32 md:w-48 rounded-2xl overflow-hidden snap-start flex-shrink-0 border border-white/15 shadow-xl relative group cursor-pointer">
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3r9nE1Vbqe4h_Iw81pk0SRBj2heXhWp7KzzSb0xk-osg1kYcaX3lC3HqrU29SIU0O0lQySbJXBO5K-sPDbk69pNCOucGIgFhVE5JgRb2e6BpQ8m7kqb2G_LJefvticmf2mGw5BCMQJJb1r7HL-2htLAcmnqTz7y6XSr29q7wTr-p5naeTkxg4gG7z1nCZ7ytU85EIyt2KPsyQXeDlL-RUHMnNJHfp3HZCqczGzWoWuoEi496zJo0UCw')"></div>
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+        </div>
+
+        <div class="h-24 w-32 md:h-32 md:w-48 rounded-2xl overflow-hidden snap-start flex-shrink-0 border border-white/15 shadow-xl relative group cursor-pointer">
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCIl1CXaN0PSro9yT4lh_79AFh8jSCXa_SVANreSc-x-xAu2FUewLsTZKL7_6pxCQdyCmQOUAvyFbKNl2sVULW1GN2j6-hfeDS1PumB3Smt2bshurgn2RLK1-6IrBq7grPr8Yb3OMi0mwd5I5LQoIZUXNr3Xy40ZzkHfyJnS1Et2yA9JGB30GRHMYOy11M0QFq9xXm9bYPi3pyGnH2RrNTJ1pPL0v2hbsEMi8kQTDkA7BWmYtWQTQv9uw')"></div>
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+        </div>
+
+        <div class="h-24 w-32 md:h-32 md:w-48 rounded-2xl overflow-hidden snap-start flex-shrink-0 border border-white/15 shadow-xl relative group cursor-pointer">
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCrbGlUPoektfuxcCZJy7YZtztPYf9E4aSHgjHbgellsR0mFfCAcXsa3mhRAvOzK8ivat1UXD-0QSx4yQLo4XKxNI5Aszwb87HvgQe-VdpUQFci3luzto1X8yeD7A5G_ciM6MROoGmXfd_J5WF03P55bORg75vu9fOAs0TJlQ_ZQkfmQyBZpf2PrzAHkfMXumE9zXjyN5JqISkqOdjI5u_EW831qnlOtxwCP0eAfJOZaMGzRZEqn5_sdw')"></div>
+          <div class="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <span class="font-cairo text-xs font-black text-secondary tracking-widest">+٥ صور أخرى</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Badges -->
+      <div class="absolute top-28 right-6 md:right-12 flex gap-3 z-10">
+        <span class="bg-secondary text-on-secondary font-cairo text-xs font-black px-4 py-2 rounded-full shadow-[0_0_15px_rgba(195,244,0,0.5)]">🔥 الأكثر طلباً بالموقف</span>
+        <span class="bg-surface/70 backdrop-blur-md border border-white/10 text-on-surface font-cairo text-xs font-bold px-4 py-2 rounded-full">طريق صحراوي سريع</span>
+      </div>
+    </section>
+
+    <!-- Main Details Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-20 relative z-20 pb-24 lg:pb-32">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        
+        <!-- Right Column: Line Info & Vibe Stats -->
+        <div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-8">
+          
+          <!-- Header Info -->
+          <div class="flex flex-col gap-3">
+            <h1 class="font-cairo text-3xl sm:text-5xl font-black text-on-background tracking-tight drop-shadow-md">
+              خط إكسبريس السلام ➔ الإسكندرية
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-6 text-on-surface-variant font-cairo text-sm font-bold">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-xl">schedule</span>
+                <span>08:30 ص — 11:00 ص (٢.٥ ساعة)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-xl">location_on</span>
+                <span>موقف السلام <span class="text-secondary">➔</span> الإسكندرية (محرم بك)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vibe Stats Section -->
+          <section class="bg-surface-container-high/80 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 relative overflow-hidden shadow-2xl">
+            <div class="absolute -left-20 -top-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"></div>
+            
+            <h2 class="font-cairo text-2xl font-black text-on-surface mb-8 flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary text-2xl">equalizer</span>
+              <span>مواصفات وراحة الرحلة</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Stat 1 -->
+              <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-end">
+                  <span class="font-cairo text-xs font-bold text-on-surface-variant">تغطية الإنترنت</span>
+                  <span class="font-cairo text-xs font-black text-secondary">5G فائق</span>
+                </div>
+                <div class="h-2 w-full bg-surface-container-lowest rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary to-secondary w-[95%] rounded-full shadow-[0_0_10px_rgba(195,244,0,0.5)]"></div>
+                </div>
+                <p class="text-xs text-on-surface-variant">تصفح فيديو بدون تقطيع طوال الطريق.</p>
+              </div>
+
+              <!-- Stat 2 -->
+              <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-end">
+                  <span class="font-cairo text-xs font-bold text-on-surface-variant">قوة التكييف</span>
+                  <span class="font-cairo text-xs font-black text-primary">تكييف ممتاز</span>
+                </div>
+                <div class="h-2 w-full bg-surface-container-lowest rounded-full overflow-hidden">
+                  <div class="h-full bg-primary w-[85%] rounded-full"></div>
+                </div>
+                <p class="text-xs text-on-surface-variant">تكييف مركزي مريح طوال الرحلة.</p>
+              </div>
+
+              <!-- Stat 3 -->
+              <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-end">
+                  <span class="font-cairo text-xs font-bold text-on-surface-variant">راحة المقاعد</span>
+                  <span class="font-cairo text-xs font-black text-secondary">جلد فاخر</span>
+                </div>
+                <div class="h-2 w-full bg-surface-container-lowest rounded-full overflow-hidden flex gap-1">
+                  <div class="h-full bg-secondary w-1/5 rounded-full"></div>
+                  <div class="h-full bg-secondary w-1/5 rounded-full"></div>
+                  <div class="h-full bg-secondary w-1/5 rounded-full"></div>
+                  <div class="h-full bg-secondary w-1/5 rounded-full"></div>
+                  <div class="h-full bg-surface-container-highest w-1/5 rounded-full"></div>
+                </div>
+                <p class="text-xs text-on-surface-variant">إمالة 140 درجة + مسند يد.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Social / Who's on Board -->
+          <section class="flex flex-col gap-6">
+            <div class="flex justify-between items-center">
+              <h2 class="font-cairo text-2xl font-black text-on-surface">ركاب هذه الرحلة اليوم</h2>
+              <span class="font-cairo text-xs font-black text-primary bg-primary/10 border border-primary/30 px-4 py-1.5 rounded-full">محجوز 10 من أصل 14 مقعد</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="bg-surface-container/70 rounded-3xl p-6 border border-white/10 flex flex-col gap-3">
+                <div class="flex items-center gap-2 text-secondary">
+                  <span class="material-symbols-outlined">school</span>
+                  <h3 class="font-cairo font-bold text-sm text-on-surface">جروب طلاب جامعة الإسكندرية</h3>
+                </div>
+                <p class="text-xs text-on-surface-variant leading-relaxed">المغادرة مبكرة للوصول قبل محاضرات الجامعة.</p>
+              </div>
+
+              <div class="bg-surface-container/70 rounded-3xl p-6 border border-white/10 flex flex-col gap-3">
+                <div class="flex items-center gap-2 text-primary">
+                  <span class="material-symbols-outlined">beach_access</span>
+                  <h3 class="font-cairo font-bold text-sm text-on-surface">رحلات الويكند والبحر</h3>
+                </div>
+                <p class="text-xs text-on-surface-variant leading-relaxed">قضاء اليوم على كورنيش الإسكندرية ومحرم بك.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Route Map Section -->
+          <section class="rounded-3xl overflow-hidden border border-white/10 relative h-64 shadow-2xl">
+            <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC90yeQCKLgF4Rne33SRZZyZnKdJiHVRTbUhG8LyBagFEIcezDK7NLTgupQAzBh9CgK3zbCYhyKlqX7qYM5HinJW63szXUxvFj_Dng-Pv7bYE6e_ftgschdG9-XmB5FSrdmzBhfkZBdcMFlrZybldHzZRe-nQIuLj3wZ7-5IaDXzLePDuOrwceI8rgmLyqq9ivsM2rGULG2dHogCQ1hVHXy8pMNM4BexZkS7SRlVjB5oIGMqxYTZ_4WAQ')"></div>
+            <div class="absolute bottom-4 right-4 bg-surface/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 flex items-center gap-2 text-xs font-bold text-on-surface">
+              <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              <span>خريطة تتبع المسار المباشر: موقف السلام ➔ الطريق الصحراوي ➔ الإسكندرية</span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Left Column: Sticky Checkout Sidebar -->
+        <div class="lg:col-span-5 xl:col-span-4 sticky top-28">
+          <div class="bg-surface-container-low/90 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 shadow-2xl flex flex-col gap-6">
+            
+            <!-- Pricing Header -->
+            <div class="flex justify-between items-end border-b border-white/10 pb-6">
+              <div>
+                <span class="text-xs font-bold text-on-surface-variant uppercase block mb-1">أجرة الكرسي الأساسية</span>
+                <span class="text-3xl font-black text-secondary">EGP {{ basePrice }}</span>
+              </div>
+              <span class="px-3 py-1 bg-secondary/10 text-secondary border border-secondary/30 rounded-full text-xs font-bold">تسعير رسمي بالموقف</span>
+            </div>
+
+            <!-- Seat Counter -->
+            <div class="flex flex-col gap-3">
+              <span class="text-xs font-bold text-on-surface-variant">عدد المقاعد المطلوبة:</span>
+              <div class="flex items-center justify-between bg-surface-container-highest p-2 rounded-2xl border border-white/10">
+                <button type="button" (click)="decrementSeats()" class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface font-bold text-lg hover:bg-primary transition-colors">-</button>
+                <span class="font-cairo font-black text-xl text-on-surface">{{ seatCount }}</span>
+                <button type="button" (click)="incrementSeats()" class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface font-bold text-lg hover:bg-primary transition-colors">+</button>
+              </div>
+            </div>
+
+            <!-- Addon Upgrade Checkbox -->
+            <div class="flex items-center justify-between bg-surface-container-highest/60 p-4 rounded-2xl border border-white/10">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" [(ngModel)]="windowSeatGuarantee" class="w-4 h-4 accent-primary rounded cursor-pointer" />
+                <span class="text-xs font-bold text-on-surface">ضمان مقعد بجوار الشباك</span>
+              </label>
+              <span class="text-xs font-bold text-secondary">+EGP 10</span>
+            </div>
+
+            <!-- Total Calculation -->
+            <div class="flex justify-between items-center pt-2">
+              <span class="text-sm font-extrabold text-on-surface">إجمالي تكلفة الرحلة:</span>
+              <span class="text-3xl font-black text-on-surface">EGP {{ totalPrice }}.00</span>
+            </div>
+
+            <!-- Action Button -->
+            <button 
+              type="button" 
+              (click)="goToBooking()"
+              class="w-full py-4 rounded-2xl bg-gradient-to-r from-primary via-indigo-600 to-indigo-700 text-white font-cairo font-black text-base transition-all hover:scale-[1.02] shadow-[0_0_20px_rgba(79,70,229,0.5)] flex items-center justify-center gap-2">
+              <span>احجز كرسيك واختار مقعدك</span>
+              <span class="material-symbols-outlined rotate-180">arrow_forward</span>
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<app-footer></app-footer>

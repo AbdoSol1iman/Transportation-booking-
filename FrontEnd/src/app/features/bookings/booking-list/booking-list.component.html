@@ -1,0 +1,159 @@
+<app-navbar></app-navbar>
+
+<div class="w-full pt-24 bg-background min-h-screen relative text-on-background overflow-hidden pb-32 font-cairo" dir="rtl">
+  
+  <!-- Ambient background glow -->
+  <div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[100px] mix-blend-screen"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+    
+    <!-- Animated Green Check Header Section (Arabic Transport) -->
+    <div class="flex flex-col items-center justify-center mb-16 mt-4">
+      <div class="relative w-20 h-20 mb-4 text-secondary">
+        <div class="w-20 h-20 rounded-full bg-secondary/10 border-2 border-secondary flex items-center justify-center shadow-[0_0_30px_rgba(195,244,0,0.4)]">
+          <span class="material-symbols-outlined text-4xl text-secondary font-bold">check</span>
+        </div>
+      </div>
+
+      <h1 class="font-cairo text-4xl sm:text-6xl font-black text-on-surface text-center tracking-tight mb-3">
+        تم تأكيد حجز <span class="text-secondary">مقعدك بنجاح!</span>
+      </h1>
+      <p class="font-cairo text-on-surface-variant text-center max-w-lg text-base">
+        تذكرتك مؤكدة ومحجوزة بمركبة خط السير. اعرض رمز الـ QR للسائق عند الصعود بموقف السلام.
+      </p>
+    </div>
+
+    <!-- Booking Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      
+      <!-- Digital Ticket Card -->
+      <div class="lg:col-span-7 w-full">
+        <div class="relative rounded-[2.5rem] bg-surface-container-high/60 backdrop-blur-3xl border-t border-r border-secondary/20 p-1 overflow-hidden shadow-2xl">
+          
+          <div class="relative rounded-[2.25rem] bg-surface-container-low p-8 md:p-10 flex flex-col gap-8 z-10 h-full border border-border-subtle">
+            
+            <!-- Ticket Header -->
+            <div class="flex justify-between items-start border-b border-white/10 pb-6">
+              <div class="flex flex-col gap-1">
+                <span class="font-cairo text-xs font-bold text-primary tracking-wider uppercase">رقم التذكرة #SLM-8492</span>
+                <h2 class="font-cairo text-2xl font-extrabold text-on-surface">خط موقف السلام ➔ الإسكندرية (محرم بك)</h2>
+              </div>
+              <div class="px-4 py-2 rounded-full bg-secondary text-on-secondary font-cairo text-xs font-extrabold shadow-[0_0_15px_-3px_rgba(195,244,0,0.5)]">
+                تذكرة سارية ومؤكدة
+              </div>
+            </div>
+
+            <!-- Route Flight Style Display -->
+            <div class="flex items-center gap-6 py-4">
+              <div class="flex flex-col w-1/3">
+                <span class="font-cairo text-xs font-bold text-on-surface-variant mb-1">محطة القيام</span>
+                <span class="font-cairo text-2xl font-black text-on-surface">موقف السلام</span>
+                <span class="font-cairo text-sm text-secondary font-bold mt-1">08:30 صباحاً</span>
+                <span class="font-cairo text-xs text-on-surface-variant">اليوم</span>
+              </div>
+
+              <div class="flex-1 flex items-center justify-center relative">
+                <div class="w-full h-[2px] bg-white/20"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-secondary bg-surface-container-low px-2 text-xl rotate-180">directions_bus</span>
+                </div>
+              </div>
+
+              <div class="flex flex-col w-1/3 text-left">
+                <span class="font-cairo text-xs font-bold text-on-surface-variant mb-1">محطة الوصول</span>
+                <span class="font-cairo text-2xl font-black text-on-surface">الإسكندرية</span>
+                <span class="font-cairo text-sm text-on-surface-variant mt-1">11:00 صباحاً</span>
+                <span class="font-cairo text-xs text-on-surface-variant">محرم بك</span>
+              </div>
+            </div>
+
+            <!-- Passenger & Vehicle Details -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 py-6 border-y border-white/10 text-sm font-cairo">
+              <div class="flex flex-col gap-1">
+                <span class="font-cairo text-xs text-on-surface-variant">اسم الراكب</span>
+                <span class="text-on-surface font-bold">أحمد محمد</span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="font-cairo text-xs text-on-surface-variant">رقم المقعد</span>
+                <span class="text-on-surface font-bold">مقعد ٤ (شباك)</span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="font-cairo text-xs text-on-surface-variant">نوع المركبة</span>
+                <span class="text-on-surface font-bold">ميكروباص تويوتا مكيف</span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="font-cairo text-xs text-on-surface-variant">أجرة المقعد</span>
+                <span class="text-secondary font-bold">EGP 75.00</span>
+              </div>
+            </div>
+
+            <!-- Boarding QR Code Display -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8 pt-2">
+              <div class="flex-1">
+                <p class="font-cairo text-sm text-on-surface-variant max-w-sm leading-relaxed">
+                  اعرض رمز الـ QR هذا لسائق الميكروباص أو كمساري الخط بموقف السلام عند الصعود. التذكرة تشمل رسوم الدخول للموقف.
+                </p>
+              </div>
+              <div class="p-4 bg-white rounded-2xl shadow-[0_0_25px_-5px_rgba(79,70,229,0.3)] shrink-0 transition-transform hover:scale-105 cursor-pointer">
+                <img class="w-32 h-32 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDNz-hfu45yGJ4nWUSVt62Pc3nv0Yr1ogqhJAGSS65mBe_o04b5C0M2mHXtmaJrex22BObfdlhxDCVhOdHI99P2cBVYZ6c_Kyty1O52A30ydicIK1ot9Jy4zI59SYRzS5jUfVbKEF2qk13o1V5JCYzgtxWCMPHMh_ip6qBAtUg6JHpqELYpkA5q4BodXqeHIIa4FrWODsPbrlHQbOXlkIkE19jzSDHWfhA2iSajMJzzXO-fCiwb7qoVQ" alt="رمز الـ QR للتذكرة" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions & Station Instructions Sidebar -->
+      <div class="lg:col-span-5 w-full flex flex-col gap-6">
+        
+        <!-- Primary Action Buttons -->
+        <div class="flex flex-col gap-4">
+          <button class="w-full flex items-center justify-center gap-3 py-4 rounded-full bg-gradient-to-r from-primary to-indigo-500 text-white font-cairo text-base font-bold transition-all hover:scale-[1.02] shadow-[0_0_20px_-5px_rgba(79,70,229,0.5)]">
+            <span class="material-symbols-outlined">download_for_offline</span>
+            <span>حفظ التذكرة على الموبايل</span>
+          </button>
+          
+          <button class="w-full flex items-center justify-center gap-3 py-4 rounded-full bg-surface-container-high border border-outline-variant/50 text-on-surface font-cairo text-base font-bold transition-all hover:bg-surface-container-highest hover:border-secondary hover:text-secondary">
+            <span class="material-symbols-outlined">share</span>
+            <span>مشاركة التذكرة وتفاصيل الخط</span>
+          </button>
+        </div>
+
+        <!-- Station Info Box -->
+        <div class="rounded-3xl bg-surface-container p-6 border border-outline-variant/20 relative group">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold">
+              <span class="material-symbols-outlined text-xl">info</span>
+            </div>
+            <h3 class="font-cairo text-lg font-bold text-on-surface">تعليمات الوصول لموقف السلام</h3>
+          </div>
+
+          <ul class="font-cairo text-xs text-on-surface-variant space-y-2.5 leading-relaxed">
+            <li class="flex items-start gap-2">
+              <span class="text-secondary font-bold">•</span>
+              <span>مظلة ميكروباصات الإسكندرية تقع بجوار بوابة الدخول الرئيسية لموقف السلام الإقليمي.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-secondary font-bold">•</span>
+              <span>يرجى الحضور قبل موعد التحرك بـ ١٠ دقائق لضمان تجهيز الأمتعة وصعود المركبة بانتظام.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-secondary font-bold">•</span>
+              <span>في حالة الدعم الفني أو الاستفسار داخل الموقف اتصل بمسؤول الموقف على الخط الساخن 1689.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+
+

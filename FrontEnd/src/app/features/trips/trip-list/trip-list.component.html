@@ -1,0 +1,287 @@
+<app-navbar></app-navbar>
+
+<div class="w-full pt-20 bg-background min-h-screen font-cairo">
+  <div class="flex flex-col w-full relative">
+    
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+      <div class="absolute top-1/4 -right-32 w-96 h-96 bg-primary/15 rounded-full blur-[120px] mix-blend-screen"></div>
+      <div class="absolute bottom-1/4 -left-32 w-96 h-96 bg-secondary/10 rounded-full blur-[140px] mix-blend-screen"></div>
+    </div>
+
+    <!-- Main Grid Layout -->
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10 pt-8 pb-32">
+      
+      <!-- Right Column: Sticky Filter Sidebar (RTL) -->
+      <aside class="col-span-1 lg:col-span-4">
+        <div class="sticky top-28 flex flex-col gap-6">
+          
+          <!-- Search Summary Card -->
+          <div class="relative w-full rounded-3xl bg-surface-container-low/80 backdrop-blur-2xl p-6 shadow-2xl overflow-hidden border border-white/10" dir="rtl">
+            <div class="absolute inset-0 bg-gradient-to-br from-secondary/10 via-transparent to-primary/10 opacity-60 pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between mb-3 relative z-10">
+              <span class="px-3 py-1 bg-secondary/10 text-secondary border border-secondary/30 rounded-full text-xs font-bold">محطة القيام الرئيسية</span>
+              <span class="text-xs text-on-surface-variant font-bold">رحلات فورية</span>
+            </div>
+
+            <h2 class="font-cairo text-2xl font-black text-on-surface mb-2 relative z-10 flex items-center gap-2">
+              <span>موقف السلام</span>
+              <span class="material-symbols-outlined text-secondary text-2xl rotate-180">arrow_right_alt</span>
+              <span>الإسكندرية</span>
+            </h2>
+            <p class="font-cairo text-xs font-bold text-on-surface-variant relative z-10 mb-6">٢٨ خط سير وميكروباص متاح الآن للحجز الفوري</p>
+            
+            <div class="flex gap-3 relative z-10 text-xs">
+              <div class="w-1/2 py-2.5 bg-surface-container-highest/80 rounded-xl flex items-center justify-center gap-2 border border-white/10">
+                <span class="material-symbols-outlined text-secondary text-sm">calendar_today</span>
+                <span class="font-cairo font-bold text-on-surface">اليوم</span>
+              </div>
+              <div class="w-1/2 py-2.5 bg-surface-container-highest/80 rounded-xl flex items-center justify-center gap-2 border border-white/10">
+                <span class="material-symbols-outlined text-primary text-sm">airline_seat_recline_extra</span>
+                <span class="font-cairo font-bold text-on-surface">مقعد واحد</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Controls -->
+          <div class="relative w-full rounded-3xl bg-surface-container-low/80 backdrop-blur-2xl p-6 shadow-2xl overflow-hidden border border-white/10" dir="rtl">
+            <h3 class="font-cairo text-lg font-black text-on-surface mb-6 pb-3 border-b border-white/10 relative z-10 flex items-center justify-between">
+              <span>فلترة وسائل النقل والمواقف</span>
+              <span class="material-symbols-outlined text-secondary text-xl">tune</span>
+            </h3>
+            
+            <!-- Vehicle Type Filter -->
+            <div class="flex flex-col gap-3 relative z-10 mb-6">
+              <span class="font-cairo text-xs font-black text-secondary tracking-wide">نوع الوسيلة أو المركبة</span>
+              <div class="flex flex-wrap gap-2">
+                <button class="px-3.5 py-1.5 rounded-full bg-secondary text-on-secondary font-cairo text-xs font-black shadow-[0_0_12px_rgba(195,244,0,0.4)]">🚐 ميكروباص مكيف</button>
+                <button class="px-3.5 py-1.5 rounded-full bg-surface-container-highest text-on-surface font-cairo text-xs font-bold hover:border-primary border border-white/10 transition-colors">🚌 أتوبيس شرق الدلتا</button>
+                <button class="px-3.5 py-1.5 rounded-full bg-surface-container-highest text-on-surface font-cairo text-xs font-bold hover:border-primary border border-white/10 transition-colors">⚡ سرفيس مباشر</button>
+                <button class="px-3.5 py-1.5 rounded-full bg-surface-container-highest text-on-surface font-cairo text-xs font-bold hover:border-primary border border-white/10 transition-colors">⭐ سوبر جيت VIP</button>
+              </div>
+            </div>
+
+            <!-- Price Drop Slider -->
+            <div class="flex flex-col gap-3 relative z-10 mb-6">
+              <div class="flex justify-between items-end">
+                <span class="font-cairo text-xs font-black text-secondary tracking-wide">نطاق أجرة الكرسي</span>
+                <span class="font-cairo text-xs font-black text-primary">EGP 45 - EGP 120</span>
+              </div>
+              <div class="w-full h-2 bg-surface-container-highest rounded-full relative overflow-hidden">
+                <div class="absolute right-1/4 left-1/4 h-full bg-gradient-to-r from-primary to-secondary shadow-[0_0_8px_rgba(79,70,229,0.8)]"></div>
+              </div>
+            </div>
+
+            <!-- Quick Sort Options -->
+            <div class="flex flex-col gap-3 relative z-10">
+              <span class="font-cairo text-xs font-black text-secondary tracking-wide">ترتيب الرحلات</span>
+              <div class="flex flex-col gap-2.5 text-xs">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                  <div class="w-5 h-5 rounded-md bg-primary flex items-center justify-center shadow-[0_0_8px_rgba(79,70,229,0.5)]">
+                    <span class="material-symbols-outlined text-xs text-white font-bold">check</span>
+                  </div>
+                  <span class="font-cairo font-bold text-on-surface group-hover:text-primary transition-colors">الأسرع تحركاً ومغادرة من الموقف</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                  <div class="w-5 h-5 rounded-md bg-surface-container-highest border border-white/10 flex items-center justify-center"></div>
+                  <span class="font-cairo text-on-surface-variant group-hover:text-primary transition-colors">الأقل أجرة وسعراً</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                  <div class="w-5 h-5 rounded-md bg-surface-container-highest border border-white/10 flex items-center justify-center"></div>
+                  <span class="font-cairo text-on-surface-variant group-hover:text-primary transition-colors">الأعلى تقييماً للراحة والتكييف</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </aside>
+
+      <!-- Left Column: Results Grid (RTL) -->
+      <main class="col-span-1 lg:col-span-8 flex flex-col gap-8" dir="rtl">
+        
+        <!-- Sorting Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-surface-container-low/60 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-xl">
+          <div>
+            <h1 class="font-cairo text-2xl sm:text-3xl font-black text-on-surface tracking-tight">
+              خطوط سير المواقف <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-lime-300">المتاحة الآن</span>
+            </h1>
+            <p class="text-xs text-on-surface-variant font-bold mt-1">اختر رحلتك واحجز كرسيك في الميكروباص أو الأتوبيس مسبقاً</p>
+          </div>
+
+          <!-- Toggle View -->
+          <div class="flex bg-surface-container-highest rounded-2xl p-1 border border-white/10">
+            <button class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-[0_0_12px_rgba(79,70,229,0.4)]">
+              <span class="material-symbols-outlined text-xl">grid_view</span>
+            </button>
+            <button class="w-10 h-10 rounded-xl text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors">
+              <span class="material-symbols-outlined text-xl">view_list</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Grid of Trip Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Card 1: Microbus El-Salam -> Alex -->
+          <article routerLink="/trip-detail" class="relative rounded-3xl overflow-hidden bg-surface-container-low border border-white/10 shadow-2xl group transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 flex flex-col justify-between h-[420px] cursor-pointer">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3gLMkWusYRE1HOnO5tfE6DpSBm8cX2Af1BCFt39wZSDambGbI0MUmzISbkc7at6xUmz1fA9miER4JS3db6LvX0z5BgD15fTuW2eDfj7Z18KSWbamec9pJLbn-3-uB2PX05w3uQJrQNv6tfBNuUpZsSYssnesusG8jsCIPok7DdiEIM_Osaxp4nMgpVnq2xCxtpwW0P8k_QW9zwKDRwg9q__2mjBKbd_v8jWv00h29Tod3d4cVs4iEDw')"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-background/30"></div>
+            
+            <div class="relative z-20 p-5 flex justify-between items-start">
+              <span class="px-3 py-1 bg-secondary text-on-secondary rounded-full font-cairo text-xs font-black shadow-[0_0_15px_rgba(195,244,0,0.5)]">🔥 طالع فوراً</span>
+              <span class="px-3 py-1 bg-surface-container-highest/90 backdrop-blur-md text-on-surface rounded-full font-cairo text-xs font-bold border border-white/10">ميكروباص تويوتا مكيف</span>
+            </div>
+
+            <div class="relative z-20 p-6 bg-surface-container-lowest/90 backdrop-blur-2xl border-t border-white/10 flex flex-col gap-4">
+              <div class="flex justify-between items-end">
+                <div>
+                  <span class="text-xs font-bold text-secondary block mb-1">موقف السلام ➔ موقف محرم بك</span>
+                  <h3 class="text-2xl font-black text-on-surface">مغادرة: 08:30 ص</h3>
+                  <p class="text-xs text-on-surface-variant font-bold mt-1">زمن الرحلة: ٢ ساعة و ٣٠ دقيقة • صحراوي</p>
+                </div>
+                <div class="text-left">
+                  <span class="text-[10px] text-on-surface-variant font-bold block uppercase">أجرة الكرسي</span>
+                  <span class="text-3xl font-black text-secondary drop-shadow-[0_0_10px_rgba(195,244,0,0.5)]">EGP 75</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-3 border-t border-white/10">
+                <div class="flex items-center gap-1.5 text-xs text-secondary font-black">
+                  <span class="material-symbols-outlined text-sm">event_seat</span>
+                  <span>متبقي ٣ مقاعد فقط!</span>
+                </div>
+                <a routerLink="/book" class="px-5 py-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 text-white font-cairo text-xs font-black shadow-[0_0_15px_rgba(79,70,229,0.5)] hover:scale-105 transition-all">
+                  احجز كرسيك
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Bus El-Salam -> Mansoura -->
+          <article class="relative rounded-3xl overflow-hidden bg-surface-container-low border border-white/10 shadow-2xl group transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 flex flex-col justify-between h-[420px]">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAIoNVHuf5YrrfePQS9UCoUDu5zpD70wwZXj1Oa49VqwHtKzm6vZ2nBb7v-ADZxKjUt-HFgGdo-EjwWghbUPOkiBR68kK7krF16X_cEEIy5ZCaSu_lwHiu-eA8CgVIGgjKVkIFAGVkJ6LNtVqsGV7WS0n1qc-K5f6U5aQwPL3uDn1oE-gzo5aXny5GTglZW5vuZOTaChtOGz2A5v3k19iwKx7sixurk4fZ10U0yQ5EkQyoX64LTR87svA')"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-background/30"></div>
+            
+            <div class="relative z-20 p-5 flex justify-between items-start">
+              <span class="px-3 py-1 bg-primary text-white rounded-full font-cairo text-xs font-black shadow-[0_0_12px_rgba(79,70,229,0.4)]">🚌 أتوبيس شرق الدلتا</span>
+              <span class="px-3 py-1 bg-surface-container-highest/90 backdrop-blur-md text-on-surface rounded-full font-cairo text-xs font-bold border border-white/10">مكيّف</span>
+            </div>
+
+            <div class="relative z-20 p-6 bg-surface-container-lowest/90 backdrop-blur-2xl border-t border-white/10 flex flex-col gap-4">
+              <div class="flex justify-between items-end">
+                <div>
+                  <span class="text-xs font-bold text-primary block mb-1">موقف السلام ➔ موقف المنصورة الجديد</span>
+                  <h3 class="text-2xl font-black text-on-surface">مغادرة: 09:00 ص</h3>
+                  <p class="text-xs text-on-surface-variant font-bold mt-1">زمن الرحلة: ٢ ساعة • مباشر</p>
+                </div>
+                <div class="text-left">
+                  <span class="text-[10px] text-on-surface-variant font-bold block uppercase">أجرة الكرسي</span>
+                  <span class="text-3xl font-black text-on-surface">EGP 55</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-3 border-t border-white/10">
+                <div class="flex items-center gap-1.5 text-xs text-on-surface-variant font-bold">
+                  <span class="material-symbols-outlined text-sm text-primary">ac_unit</span>
+                  <span>تكييف فرنسي + أمتعة</span>
+                </div>
+                <a routerLink="/book" class="px-5 py-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 text-white font-cairo text-xs font-black shadow-[0_0_15px_rgba(79,70,229,0.5)] hover:scale-105 transition-all">
+                  احجز كرسيك
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Ramses -> Tanta Service -->
+          <article routerLink="/trip-detail" class="relative rounded-3xl overflow-hidden bg-surface-container-low border border-white/10 shadow-2xl group transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 flex flex-col justify-between h-[420px] cursor-pointer">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1zkjg-EBFEPwn27I000i5RGB8Bedtke6FqOB4sAVoOLKYXx_cbr-xANixaJ9n96b6HfoD0z5Ld_HH95RoA3LYtFWe3bdnx8zx9pdKqNkCxJ3z5RPCeKNymmPSw99NCTXlDMi8ATAhwxOdKq3CHiqYV5zO1rRvmYyrF-HpLPyo3ltfWh8YKwk2m4RHnVwJh9-kVH72Rsq-Et_oEGrMzSppcTRu4sdMT-r_SJpEhC_hTnvkE6wINiNPHg')"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-background/30"></div>
+            
+            <div class="relative z-20 p-5 flex justify-between items-start">
+              <span class="px-3 py-1 bg-surface-container-highest/90 text-on-surface rounded-full font-cairo text-xs font-black border border-white/10">🚐 سرفيس رمسيس طنطا</span>
+              <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full font-cairo text-xs font-bold border border-secondary/30">حجز مسبق</span>
+            </div>
+
+            <div class="relative z-20 p-6 bg-surface-container-lowest/90 backdrop-blur-2xl border-t border-white/10 flex flex-col gap-4">
+              <div class="flex justify-between items-end">
+                <div>
+                  <span class="text-xs font-bold text-secondary block mb-1">موقف رمسيس ➔ موقف طنطا (جابر)</span>
+                  <h3 class="text-2xl font-black text-on-surface">مغادرة: 09:15 ص</h3>
+                  <p class="text-xs text-on-surface-variant font-bold mt-1">زمن الرحلة: ١ ساعة و ٤٥ دقيقة</p>
+                </div>
+                <div class="text-left">
+                  <span class="text-[10px] text-on-surface-variant font-bold block uppercase">أجرة الكرسي</span>
+                  <span class="text-3xl font-black text-on-surface">EGP 45</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-3 border-t border-white/10">
+                <div class="flex items-center gap-1.5 text-xs text-on-surface-variant font-bold">
+                  <span class="material-symbols-outlined text-sm text-secondary">verified</span>
+                  <span>مقعد مضمون بالكامل</span>
+                </div>
+                <a routerLink="/book" class="px-5 py-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 text-white font-cairo text-xs font-black shadow-[0_0_15px_rgba(79,70,229,0.5)] hover:scale-105 transition-all">
+                  احجز كرسيك
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: El-Salam -> Port Said SuperJet -->
+          <article routerLink="/trip-detail" class="relative rounded-3xl overflow-hidden bg-surface-container-low border border-white/10 shadow-2xl group transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 flex flex-col justify-between h-[420px] cursor-pointer">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_DN3nkA23qZc3XeCtUX5-WgsztTbkyZVuhi6Qj92mK8CZB0JHSv7IxQVTzw_AYkaCorZYuaCrvrNPZhfP_tFCG4tyKrnTt7p5s5aa147Enh4X2Tpe25jtv5xRikHytEFhIJmZdj1ugbgI0x9Pryowk0J20nMX4EInjTW_OJ1cl0mmy8PvQmSekkzN2TUlM_AHhlbelFZ1ll0TnbG6BewJJXk5YNLtHL4sU0wOD1BeHxqgEVhPj4jlLw')"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-background/30"></div>
+            
+            <div class="relative z-20 p-5 flex justify-between items-start">
+              <span class="px-3 py-1 bg-secondary/20 backdrop-blur-md border border-secondary/50 text-secondary rounded-full font-cairo text-xs font-black">⭐ سوبرجيت السلام</span>
+              <span class="px-3 py-1 bg-surface-container-highest/90 text-on-surface rounded-full font-cairo text-xs font-bold border border-white/10">درجة أولى</span>
+            </div>
+
+            <div class="relative z-20 p-6 bg-surface-container-lowest/90 backdrop-blur-2xl border-t border-white/10 flex flex-col gap-4">
+              <div class="flex justify-between items-end">
+                <div>
+                  <span class="text-xs font-bold text-secondary block mb-1">موقف السلام ➔ بورسعيد</span>
+                  <h3 class="text-2xl font-black text-on-surface">مغادرة: 10:00 ص</h3>
+                  <p class="text-xs text-on-surface-variant font-bold mt-1">زمن الرحلة: ٢ ساعة و ٣٠ دقيقة • مكيفة</p>
+                </div>
+                <div class="text-left">
+                  <span class="text-[10px] text-on-surface-variant font-bold block uppercase">أجرة الكرسي</span>
+                  <span class="text-3xl font-black text-on-surface">EGP 90</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-3 border-t border-white/10">
+                <div class="flex items-center gap-1.5 text-xs text-secondary font-black">
+                  <span class="material-symbols-outlined text-sm">speed</span>
+                  <span>كثافة الموقف: معتدلة</span>
+                </div>
+                <a routerLink="/book" class="px-5 py-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 text-white font-cairo text-xs font-black shadow-[0_0_15px_rgba(79,70,229,0.5)] hover:scale-105 transition-all">
+                  احجز كرسيك
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Load More Button -->
+        <div class="w-full flex justify-center mt-8 relative z-10">
+          <button class="px-8 py-4 rounded-2xl bg-surface-container-low border border-white/10 text-on-surface font-cairo text-sm font-black hover:bg-primary hover:text-white transition-all shadow-xl group flex items-center gap-2.5">
+            <span>تحميل المزيد من عربيات وخطوط المواقف</span>
+            <span class="material-symbols-outlined text-xl group-hover:translate-y-1 transition-transform">expand_more</span>
+          </button>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+
+
+

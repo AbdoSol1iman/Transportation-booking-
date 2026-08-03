@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <title>رود بوكينج - نظام حجز الرحلات وتتبع الأسطول</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Google Fonts: Cairo, Anybody, Space Grotesk, Hanken Grotesk, Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Anybody:wght@700;800;900&family=Space+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Material Symbols Outlined -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <!-- Tailwind CDN with Cyber Neon Stitch Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              cairo: ['Cairo', 'sans-serif'],
+              anybody: ['Anybody', 'Cairo', 'sans-serif'],
+              space: ['Space Grotesk', 'Cairo', 'sans-serif'],
+              hanken: ['Hanken Grotesk', 'Cairo', 'sans-serif'],
+              inter: ['Inter', 'sans-serif'],
+              sans: ['Cairo', 'sans-serif'],
+            },
+            colors: {
+              background: "#101415",
+              surface: "#101415",
+              "surface-dim": "#101415",
+              "surface-container-lowest": "#0b0f10",
+              "surface-container-low": "#191c1e",
+              "surface-container": "#1d2022",
+              "surface-container-high": "#272a2c",
+              "surface-variant": "#323537",
+              primary: "#4f46e5",
+              "primary-hover": "#4338ca",
+              "primary-container": "#4f46e5",
+              "on-primary": "#ffffff",
+              "on-primary-container": "#dad7ff",
+              secondary: "#c3f400",
+              "secondary-hover": "#a3d600",
+              "secondary-container": "#c3f400",
+              "on-secondary": "#101415",
+              "on-background": "#e0e3e5",
+              "on-surface": "#e0e3e5",
+              "on-surface-variant": "#c7c4d8",
+              "border-subtle": "rgba(255, 255, 255, 0.08)",
+              "outline-variant": "rgba(255, 255, 255, 0.12)",
+              neon: "#c3f400",
+              "neon-green": "#a3e635",
+              "success-green": "#a3e635",
+              "success-bg": "rgba(163, 230, 53, 0.12)",
+              "danger-red": "#ff5555",
+              "warning-amber": "#ffb800"
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-background text-on-background font-cairo antialiased selection:bg-neon selection:text-background min-h-screen">
+    <app-root></app-root>
+  </body>
+</html>
+
+
+

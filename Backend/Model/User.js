@@ -56,13 +56,13 @@ userSchema.methods.correctPassword = async function (candidatePassword, userPass
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.hasRole = function (...roles) {
-  return roles.includes(this.role);
-};
+// userSchema.methods.hasRole = function (...roles) {
+//   return roles.includes(this.role);
+// };
 
-userSchema.methods.hasPermission = function (permission) {
-  const permissions = ROLE_PERMISSIONS[this.role] || [];
-  return permissions.includes(permission);
-};
+// userSchema.methods.hasPermission = function (permission) {
+//   const permissions = ROLE_PERMISSIONS[this.role] || [];
+//   return permissions.includes(permission);
+// };
 
 module.exports = mongoose.model('User', userSchema);

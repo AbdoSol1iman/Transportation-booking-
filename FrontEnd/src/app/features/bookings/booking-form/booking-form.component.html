@@ -1,0 +1,252 @@
+<app-navbar></app-navbar>
+
+<main class="w-full pt-24 bg-background min-h-screen relative text-on-background overflow-hidden pb-32 font-cairo" dir="rtl">
+  
+  <!-- Ambient background glows -->
+  <div class="fixed inset-0 z-0 pointer-events-none opacity-40">
+    <div class="absolute top-10 right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] mix-blend-screen"></div>
+    <div class="absolute bottom-10 left-1/4 w-[500px] h-[500px] bg-secondary/15 rounded-full blur-[140px] mix-blend-screen"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+    
+    <!-- Title Header Section -->
+    <div class="flex flex-col items-start mb-10">
+      <div class="flex items-center gap-2 mb-3 px-4 py-1.5 bg-primary/10 border border-primary/30 rounded-full">
+        <span class="h-2 w-2 rounded-full bg-secondary animate-pulse"></span>
+        <span class="text-secondary text-xs font-bold">خط سير موقف السلام الإقليمي</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black text-on-surface tracking-tight">
+        استكمال <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-400 to-secondary">نموذج حجز المقعد</span>
+      </h1>
+      <p class="text-on-surface-variant text-sm sm:text-base mt-2">
+        قم بإدخال بيانات الراكب واختيار مكان كرسيك من مخطط الميكروباص لتأكيد الحجز وموعد التحرك.
+      </p>
+    </div>
+
+    <!-- Booking Form & Interactive Seat Grid -->
+    <form (ngSubmit)="submitBooking()" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Right Column: Passenger & Trip Details Form -->
+      <div class="lg:col-span-7 flex flex-col gap-6">
+        
+        <!-- Passenger Personal Info -->
+        <div class="rounded-3xl bg-surface-container/60 backdrop-blur-2xl p-6 sm:p-8 border border-white/10 shadow-2xl">
+          <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+            <div class="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center font-bold">
+              <span class="material-symbols-outlined text-xl">person</span>
+            </div>
+            <h2 class="text-xl font-black text-on-surface">بيانات المسافر والراكب</h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <!-- Full Name -->
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-on-surface-variant mb-2">الاسم بالكامل (كما في بطاقة الرقم القومي)</label>
+              <div class="relative flex items-center bg-surface-container-highest rounded-xl px-4 py-3 border border-border-subtle focus-within:border-primary">
+                <span class="material-symbols-outlined text-on-surface-variant ml-3 text-lg">badge</span>
+                <input [(ngModel)]="passengerName" name="passengerName" required type="text" class="bg-transparent w-full outline-none text-on-surface text-sm font-semibold placeholder:text-on-surface-variant/50" placeholder="أدخل اسمك الثلاثي" />
+              </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant mb-2">رقم الموبايل (لتلقي التذكرة)</label>
+              <div class="relative flex items-center bg-surface-container-highest rounded-xl px-4 py-3 border border-border-subtle focus-within:border-primary">
+                <span class="material-symbols-outlined text-on-surface-variant ml-3 text-lg">phone_iphone</span>
+                <input [(ngModel)]="passengerPhone" name="passengerPhone" required type="tel" class="bg-transparent w-full outline-none text-on-surface text-sm font-semibold placeholder:text-on-surface-variant/50" placeholder="010XXXXXXXX" />
+              </div>
+            </div>
+
+            <!-- National ID -->
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant mb-2">الرقم القومي (١٤ رقم)</label>
+              <div class="relative flex items-center bg-surface-container-highest rounded-xl px-4 py-3 border border-border-subtle focus-within:border-primary">
+                <span class="material-symbols-outlined text-on-surface-variant ml-3 text-lg">fingerprint</span>
+                <input [(ngModel)]="nationalId" name="nationalId" required type="text" class="bg-transparent w-full outline-none text-on-surface text-sm font-semibold placeholder:text-on-surface-variant/50" placeholder="2980XXXXXXXXXX" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trip Details Summary Section -->
+        <div class="rounded-3xl bg-surface-container/60 backdrop-blur-2xl p-6 sm:p-8 border border-white/10 shadow-2xl">
+          <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+            <div class="w-10 h-10 rounded-xl bg-secondary/20 text-secondary flex items-center justify-center font-bold">
+              <span class="material-symbols-outlined text-xl">route</span>
+            </div>
+            <h2 class="text-xl font-black text-on-surface">تفاصيل خط السير والتحرك</h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm">
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant mb-2">محطة القيام بالموقف</label>
+              <div class="bg-surface-container-highest rounded-xl px-4 py-3 border border-border-subtle font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-lg">location_on</span>
+                <span>{{ fromStation }}</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant mb-2">جهة الوصول والموقف النهائي</label>
+              <div class="bg-surface-container-highest rounded-xl px-4 py-3 border border-border-subtle font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-lg">near_me</span>
+                <span>{{ toStation }}</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant mb-2">موعد خروج المركبة</label>
+              <div class="bg-surface-container-highest rounded-xl px-4 py-3 border border-border-subtle font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-lg">schedule</span>
+                <span>{{ selectedTime }} (تحرك فوري)</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant mb-2">نوع وسيلة النقل</label>
+              <div class="bg-surface-container-highest rounded-xl px-4 py-3 border border-border-subtle font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-lg">directions_bus</span>
+                <span>{{ vehicleType }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Method Choice -->
+        <div class="rounded-3xl bg-surface-container/60 backdrop-blur-2xl p-6 sm:p-8 border border-white/10 shadow-2xl">
+          <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+            <div class="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center font-bold">
+              <span class="material-symbols-outlined text-xl">payments</span>
+            </div>
+            <h2 class="text-xl font-black text-on-surface">طريقة دفع قيمة التذكرة</h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Cash at Station -->
+            <label [class.border-secondary]="paymentMethod === 'cash_station'" [class.bg-secondary\/10]="paymentMethod === 'cash_station'" class="flex flex-col p-4 rounded-2xl bg-surface-container-highest border border-border-subtle cursor-pointer transition-all hover:border-secondary">
+              <input type="radio" name="paymentMethod" value="cash_station" [(ngModel)]="paymentMethod" class="sr-only" />
+              <span class="material-symbols-outlined text-2xl text-secondary mb-2">payments</span>
+              <span class="font-bold text-sm text-on-surface">نقداً بالموقف</span>
+              <span class="text-[11px] text-on-surface-variant mt-1">الدفع للسائق عند الصعود</span>
+            </label>
+
+            <!-- Vodafone Cash -->
+            <label [class.border-secondary]="paymentMethod === 'vodafone_cash'" [class.bg-secondary\/10]="paymentMethod === 'vodafone_cash'" class="flex flex-col p-4 rounded-2xl bg-surface-container-highest border border-border-subtle cursor-pointer transition-all hover:border-secondary">
+              <input type="radio" name="paymentMethod" value="vodafone_cash" [(ngModel)]="paymentMethod" class="sr-only" />
+              <span class="material-symbols-outlined text-2xl text-red-500 mb-2">phone_android</span>
+              <span class="font-bold text-sm text-on-surface">فودافون كاش</span>
+              <span class="text-[11px] text-on-surface-variant mt-1">خصم فوري من المحفظة</span>
+            </label>
+
+            <!-- Card -->
+            <label [class.border-secondary]="paymentMethod === 'card'" [class.bg-secondary\/10]="paymentMethod === 'card'" class="flex flex-col p-4 rounded-2xl bg-surface-container-highest border border-border-subtle cursor-pointer transition-all hover:border-secondary">
+              <input type="radio" name="paymentMethod" value="card" [(ngModel)]="paymentMethod" class="sr-only" />
+              <span class="material-symbols-outlined text-2xl text-indigo-400 mb-2">credit_card</span>
+              <span class="font-bold text-sm text-on-surface">كارت بنكي / ميزة</span>
+              <span class="text-[11px] text-on-surface-variant mt-1">فيزا / ماستركارد</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Left Column: Microbus Seat Selection Grid & Price Checkout -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+        
+        <!-- Microbus Layout & Seat Grid -->
+        <div class="rounded-3xl bg-surface-container/80 backdrop-blur-2xl p-6 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden">
+          <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+            <div>
+              <h2 class="text-xl font-black text-on-surface">مخطط مقاعد الميكروباص</h2>
+              <p class="text-xs text-on-surface-variant">اضغط على المقعد المتاح لاختياره</p>
+            </div>
+            <span class="px-3 py-1 bg-secondary text-on-secondary rounded-full text-xs font-extrabold">١٤ مقعد</span>
+          </div>
+
+          <!-- Microbus Cab Graphic Box -->
+          <div class="w-full bg-surface-container-low rounded-3xl border border-white/10 p-6 flex flex-col items-center gap-6 relative shadow-inner">
+            
+            <!-- Driver Steering Wheel Row -->
+            <div class="w-full flex justify-between items-center px-4 pb-4 border-b border-white/10">
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface-variant text-xs font-bold">
+                <span class="material-symbols-outlined text-base">airline_seat_recline_normal</span>
+                <span>كابينة السائق</span>
+              </div>
+              <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary border border-primary/40 shadow-[0_0_10px_rgba(79,70,229,0.4)]">
+                <span class="material-symbols-outlined text-2xl">steering</span>
+              </div>
+            </div>
+
+            <!-- Seat Legend -->
+            <div class="flex items-center justify-center gap-4 text-xs font-bold mb-2">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded-md bg-secondary shadow-[0_0_8px_rgba(195,244,0,0.6)]"></span>
+                <span class="text-on-surface">محدد</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded-md bg-surface-container-highest border border-border-subtle"></span>
+                <span class="text-on-surface-variant">متاح</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded-md bg-red-500/30 border border-red-500/50"></span>
+                <span class="text-on-surface-variant">محجوز</span>
+              </div>
+            </div>
+
+            <!-- Seat Buttons Grid -->
+            <div class="grid grid-cols-3 gap-3.5 w-full max-w-xs">
+              <ng-container *ngFor="let s of seats">
+                <button 
+                  type="button"
+                  (click)="selectSeat(s.number, s.booked)"
+                  [disabled]="s.booked || s.number === 1"
+                  [class.bg-secondary]="selectedSeat === s.number"
+                  [class.text-on-secondary]="selectedSeat === s.number"
+                  [class.shadow-[0_0_15px_rgba(195,244,0,0.5)]]="selectedSeat === s.number"
+                  [class.bg-red-500\/20]="s.booked"
+                  [class.border-red-500\/40]="s.booked"
+                  [class.text-red-300]="s.booked"
+                  [class.cursor-not-allowed]="s.booked || s.number === 1"
+                  [class.bg-surface-container-highest]="!s.booked && selectedSeat !== s.number"
+                  [class.hover:border-primary]="!s.booked && selectedSeat !== s.number"
+                  class="h-14 rounded-2xl border border-border-subtle flex flex-col items-center justify-center font-extrabold text-sm transition-all duration-200 relative group">
+                  <span class="material-symbols-outlined text-lg">event_seat</span>
+                  <span>{{ s.number === 1 ? 'سائق' : 'مقعد ' + s.number }}</span>
+                </button>
+              </ng-container>
+            </div>
+
+          </div>
+
+          <!-- Checkout Price Card -->
+          <div class="mt-8 pt-6 border-t border-white/10 flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-bold text-on-surface-variant">المقعد المختار:</span>
+              <span class="text-base font-extrabold text-secondary">مقعد رقم {{ selectedSeat }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-bold text-on-surface-variant">أجرة المقعد الرسمية:</span>
+              <span class="text-2xl font-black text-on-surface">EGP {{ seatPrice }}.00</span>
+            </div>
+
+            <!-- Submit Confirm Button -->
+            <button 
+              type="submit" 
+              class="w-full mt-2 py-4 rounded-2xl bg-gradient-to-r from-primary via-indigo-600 to-primary text-white font-extrabold text-lg transition-all hover:scale-[1.02] shadow-[0_0_25px_rgba(79,70,229,0.5)] flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-2xl">confirmation_number</span>
+              <span>تأكيد الحجز وطباعة التذكرة</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+</main>
+
+<app-footer></app-footer>
