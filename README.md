@@ -1,7 +1,7 @@
 # 🚍 Transportation Booking & Management System
 
 [![Node.js](https://img.shields.io/badge/node.js-v18%2B-brightgreen.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![Angular](https://img.shields.io/badge/Angular-v17-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev/)
+[![Angular](https://img.shields.io/badge/Angular-v24-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev/)
 [![Express.js](https://img.shields.io/badge/express.js-%23404D59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)](https://expressjs.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-%2347A248.svg?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
