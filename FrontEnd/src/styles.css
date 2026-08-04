@@ -5,11 +5,16 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #101415;
+  background-color: #0d1012;
   color: #e0e3e5;
   font-family: 'Cairo', sans-serif;
   direction: rtl;
-  overscroll-behavior: none;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .font-cairo {
@@ -27,7 +32,6 @@ html, body {
 .font-hanken {
   font-family: 'Cairo', 'Hanken Grotesk', sans-serif !important;
 }
-
 
 /* Material Symbols Icon Alignment */
 .material-symbols-outlined {
@@ -64,7 +68,7 @@ html, body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #101415;
+  background: #0d1012;
 }
 ::-webkit-scrollbar-thumb {
   background: #272a2c;
@@ -74,4 +78,33 @@ html, body {
   background: #323537;
 }
 
+/* Form Controls & Dropdown High-Contrast Dark Theme Fix */
+input, select, textarea {
+  background-color: #1a1f24 !important;
+  color: #ffffff !important;
+  color-scheme: dark !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
 
+select option {
+  background-color: #13171a !important;
+  color: #ffffff !important;
+  padding: 12px !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #8a929b !important;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) !important;
+  cursor: pointer;
+}
+
+/* Responsive Mobile Display Tweaks */
+@media (max-width: 768px) {
+  .max-w-\[1700px\] {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}

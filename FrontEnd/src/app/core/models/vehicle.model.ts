@@ -1,4 +1,4 @@
-export type VehicleType = 'bus' | 'minibus' | 'van';
+export type VehicleType = 'bus' | 'minibus' | 'van' | 'microbus';
 export type VehicleStatus = 'active' | 'maintenance' | 'inactive';
 
 export interface Vehicle {

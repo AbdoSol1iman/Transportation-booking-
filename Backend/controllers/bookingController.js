@@ -42,14 +42,26 @@ const createBooking = catchAsync(async (req, res, next) => {
       if (!checkTrip) {
         throw new AppError('Trip not found', 404);
       }
+      if (checkTrip.status === 'fullyBooked') {
+        throw new AppError('عذراً، هذه الرحلة مكتملة المقاعد ولا يمكن الحجز عليها', 400);
+      }
       if (checkTrip.status !== 'scheduled') {
         throw new AppError(`Cannot book seats for a trip with status: ${checkTrip.status}`, 400);
       }
       if (checkTrip.departureTime <= new Date()) {
-        throw new AppError('Cannot book seats for a trip that has already departed', 400);
+        throw new AppError('عذراً، لا يمكن الحجز على رحلة انتهى ميعاد مغادرتها', 400);
       }
       const availableSeats = Math.max(0, checkTrip.capacity - checkTrip.currentPassengers);
-      throw new AppError(`Not enough seats available. Requested: ${passengers}, Available: ${availableSeats}`, 400);
+      throw new AppError(`لا توجد مقاعد كافية. المطلوب: ${passengers}، المتاح: ${availableSeats}`, 400);
+    }
+
+    // ── Auto-close trip if now fully booked ──────────────────────────────────
+    if (updatedTrip.currentPassengers >= updatedTrip.capacity) {
+      await Trip.findByIdAndUpdate(
+        tripId,
+        { $set: { status: 'fullyBooked' } },
+        { session }
+      );
     }
 
     const bookingCode = `BK-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;

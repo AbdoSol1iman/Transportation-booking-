@@ -7,13 +7,15 @@ export type BookingStatus = 'confirmed' | 'cancelled' | 'completed';
 
 export interface Booking {
   _id?: string;
-  bookingCode: string;
+  bookingCode?: string;
   userId: string | User;
   tripId: string | Trip;
-  passengers: number;
+  passengers?: number;
+  seatsCount?: number;
+  seatNumbers?: number[];
   totalPrice: number;
-  paymentMethod: PaymentMethod;
-  paymentStatus: PaymentStatus;
+  paymentMethod?: PaymentMethod;
+  paymentStatus?: PaymentStatus;
   status: BookingStatus;
   createdAt?: string;
   updatedAt?: string;

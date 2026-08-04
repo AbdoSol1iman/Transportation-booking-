@@ -1,138 +1,181 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<app-navbar></app-navbar>
+
+<main class="w-full pt-24 bg-background min-h-screen relative text-on-background overflow-hidden pb-32 font-cairo" dir="rtl">
   
-  <!-- Header & Add Action -->
-  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-    <div>
-      <h1 class="text-2xl font-bold text-on-surface flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary text-3xl">route</span>
-        <span>إدارة مسارات الرحلات</span>
-      </h1>
-      <p class="text-xs text-on-surface-variant mt-1">تعريف المسارات الرئيسية بين محطات القيام والوصول وحساب مسافات الطرق والزمن المتوقع.</p>
-    </div>
-
-    <button class="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-sm shadow-md shadow-primary/20 transition-all flex items-center gap-2">
-      <span class="material-symbols-outlined text-xl">add_road</span>
-      <span>إضافة مسار جديد</span>
-    </button>
-  </div>
-
-  <!-- Routes Cards Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
     
-    <!-- Route Card 1 -->
-    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-border-subtle hover:border-primary/40 hover:shadow-md transition-all">
-      <div class="flex items-center justify-between mb-4">
-        <span class="px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-          مسار رئيسي #RT-101
-        </span>
-        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-success-bg text-success-green border border-success-green/20">
-          نشط
-        </span>
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-black text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-3xl">alt_route</span>
+          <span>إدارة خطوط المسارات السريعة</span>
+        </h1>
+        <p class="text-xs text-on-surface-variant mt-1">عرض وإضافة وتعديل وحذف المسافات والزمن المتوقع بين المحطات.</p>
       </div>
 
-      <!-- Station Connection Flow -->
-      <div class="bg-surface-container-low rounded-xl p-4 mb-4 flex items-center justify-between">
-        <div class="text-right">
-          <span class="text-[11px] text-on-surface-variant font-medium block mb-1">محطة القيام</span>
-          <h4 class="font-bold text-on-surface text-base">القاهرة (الرمسيس)</h4>
-        </div>
-
-        <div class="flex flex-col items-center gap-1">
-          <div class="flex items-center gap-1 text-primary">
-            <span class="w-2 h-2 rounded-full bg-primary"></span>
-            <div class="w-16 h-[2px] bg-primary relative">
-              <span class="material-symbols-outlined text-sm absolute -top-2 left-1/2 -translate-x-1/2 rotate-90">arrow_forward</span>
-            </div>
-            <span class="w-2 h-2 rounded-full bg-primary"></span>
-          </div>
-        </div>
-
-        <div class="text-left">
-          <span class="text-[11px] text-on-surface-variant font-medium block mb-1">محطة الوصول</span>
-          <h4 class="font-bold text-on-surface text-base">الإسكندرية (محرم بك)</h4>
-        </div>
-      </div>
-
-      <!-- Stats: Distance & Duration -->
-      <div class="grid grid-cols-2 gap-4 pt-2 border-t border-border-subtle text-xs">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-surface-container text-primary flex items-center justify-center">
-            <span class="material-symbols-outlined text-base">straighten</span>
-          </div>
-          <div>
-            <span class="text-on-surface-variant block">المسافة الكلية</span>
-            <strong class="font-inter text-sm text-on-surface">220.5 KM</strong>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-surface-container text-primary flex items-center justify-center">
-            <span class="material-symbols-outlined text-base">timer</span>
-          </div>
-          <div>
-            <span class="text-on-surface-variant block">الزمن المتوقع</span>
-            <strong class="font-inter text-sm text-on-surface">180 Mins (3h)</strong>
-          </div>
-        </div>
-      </div>
+      <button (click)="showAddModal = true" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:scale-105 text-white font-bold text-xs shadow-lg transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined text-xl">add_road</span>
+        <span>إضافة خط سير جديد</span>
+      </button>
     </div>
 
-    <!-- Route Card 2 -->
-    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-border-subtle hover:border-primary/40 hover:shadow-md transition-all">
-      <div class="flex items-center justify-between mb-4">
-        <span class="px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-          مسار رئيسي #RT-102
-        </span>
-        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-success-bg text-success-green border border-success-green/20">
-          نشط
-        </span>
-      </div>
-
-      <div class="bg-surface-container-low rounded-xl p-4 mb-4 flex items-center justify-between">
-        <div class="text-right">
-          <span class="text-[11px] text-on-surface-variant font-medium block mb-1">محطة القيام</span>
-          <h4 class="font-bold text-on-surface text-base">القاهرة (الرمسيس)</h4>
-        </div>
-
-        <div class="flex flex-col items-center gap-1">
-          <div class="flex items-center gap-1 text-primary">
-            <span class="w-2 h-2 rounded-full bg-primary"></span>
-            <div class="w-16 h-[2px] bg-primary relative">
-              <span class="material-symbols-outlined text-sm absolute -top-2 left-1/2 -translate-x-1/2 rotate-90">arrow_forward</span>
-            </div>
-            <span class="w-2 h-2 rounded-full bg-primary"></span>
-          </div>
-        </div>
-
-        <div class="text-left">
-          <span class="text-[11px] text-on-surface-variant font-medium block mb-1">محطة الوصول</span>
-          <h4 class="font-bold text-on-surface text-base">دهب (البلو هول)</h4>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4 pt-2 border-t border-border-subtle text-xs">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-surface-container text-primary flex items-center justify-center">
-            <span class="material-symbols-outlined text-base">straighten</span>
-          </div>
-          <div>
-            <span class="text-on-surface-variant block">المسافة الكلية</span>
-            <strong class="font-inter text-sm text-on-surface">540.0 KM</strong>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-surface-container text-primary flex items-center justify-center">
-            <span class="material-symbols-outlined text-base">timer</span>
-          </div>
-          <div>
-            <span class="text-on-surface-variant block">الزمن المتوقع</span>
-            <strong class="font-inter text-sm text-on-surface">390 Mins (6.5h)</strong>
-          </div>
-        </div>
-      </div>
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="w-full py-16 flex flex-col items-center justify-center gap-4 bg-surface-container-low/40 rounded-3xl border border-white/10">
+      <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm font-bold text-on-surface-variant">جاري استعلام خطوط المسارات من الباك إند...</p>
     </div>
 
+    <!-- Error State -->
+    <div *ngIf="errorMessage && !isLoading" class="w-full p-6 bg-red-500/10 border border-red-500/30 rounded-3xl text-center max-w-2xl mx-auto mb-8">
+      <p class="text-sm font-bold text-red-400 mb-3">{{ errorMessage }}</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && !errorMessage && routesList.length === 0" class="w-full py-20 flex flex-col items-center justify-center gap-4 bg-surface-container-low/40 rounded-3xl border border-white/10 text-center p-8 max-w-2xl mx-auto">
+      <div class="w-16 h-16 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+        <span class="material-symbols-outlined text-4xl">wrong_location</span>
+      </div>
+      <h3 class="text-xl font-bold text-on-surface">لا توجد خطوط سير مسجلة حالياً</h3>
+      <p class="text-xs text-on-surface-variant max-w-md">يمكنك إضافة خط سير جديد بين محطتين عبر الزر بالأعلى.</p>
+    </div>
+
+    <!-- Routes Grid -->
+    <div *ngIf="!isLoading && routesList.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div *ngFor="let routeItem of routesList" class="bg-surface-container-low/90 backdrop-blur-2xl rounded-3xl p-6 border border-white/10 shadow-2xl flex flex-col justify-between gap-6 hover:border-primary/40 transition-all">
+        <div>
+          <div class="flex justify-between items-start mb-4 pb-4 border-b border-white/10">
+            <div>
+              <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs font-black">خط مباشر</span>
+              <h3 class="text-xl font-black text-on-surface mt-2">{{ getStartName(routeItem) }} ➔ {{ getEndName(routeItem) }}</h3>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold" [ngClass]="routeItem.status === 'active' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-surface-container-highest text-on-surface-variant'">
+              {{ routeItem.status === 'active' ? 'مستمر' : routeItem.status }}
+            </span>
+          </div>
+
+          <p class="text-xs text-on-surface-variant mb-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base text-primary">straighten</span>
+            <span>المسافة التقديرية: {{ routeItem.distance }} كم</span>
+          </p>
+
+          <p class="text-xs text-on-surface-variant flex items-center gap-2">
+            <span class="material-symbols-outlined text-base text-secondary">schedule</span>
+            <span>الزمن المتوقع: {{ routeItem.estimatedDuration }} دقيقة</span>
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between gap-3 pt-4 border-t border-white/10">
+          <button (click)="openEditModal(routeItem)" class="flex-1 py-2 bg-primary/20 text-primary border border-primary/30 hover:bg-primary hover:text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-base">edit</span>
+            <span>تعديل</span>
+          </button>
+
+          <button (click)="deleteRoute(routeItem._id!)" class="px-3 py-2 bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500 hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1">
+            <span class="material-symbols-outlined text-base">delete</span>
+            <span>حذف</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<!-- Add Route Modal -->
+<div *ngIf="showAddModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 font-cairo" dir="rtl">
+  <div class="bg-surface-container-low border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+    <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+      <h3 class="text-xl font-black text-on-surface">إضافة خط سير جديد</h3>
+      <button (click)="showAddModal = false" class="material-symbols-outlined text-on-surface-variant hover:text-white">close</button>
+    </div>
+
+    <form (ngSubmit)="createRoute()" class="space-y-4 text-xs font-bold">
+      <div>
+        <label class="block mb-2 text-on-surface-variant">محطة القيام (بداية الخط)</label>
+        <select [(ngModel)]="newRoute.startStationId" name="startStationId" required class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary">
+          <option value="" disabled selected>اختر محطة القيام</option>
+          <option *ngFor="let st of stations" [value]="st._id">{{ st.name }} ({{ st.city }})</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-on-surface-variant">محطة الوصول (نهاية الخط)</label>
+        <select [(ngModel)]="newRoute.endStationId" name="endStationId" required class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary">
+          <option value="" disabled selected>اختر محطة الوصول</option>
+          <option *ngFor="let st of stations" [value]="st._id">{{ st.name }} ({{ st.city }})</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-2 text-on-surface-variant">المسافة (بالكيلومتر)</label>
+          <input [(ngModel)]="newRoute.distance" name="distance" type="number" min="1" class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary" />
+        </div>
+        <div>
+          <label class="block mb-2 text-on-surface-variant">الزمن المتوقع (بالدقيقة)</label>
+          <input [(ngModel)]="newRoute.estimatedDuration" name="estimatedDuration" type="number" min="1" class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary" />
+        </div>
+      </div>
+
+      <div class="pt-4 flex gap-3">
+        <button type="submit" [disabled]="isSubmitting" class="flex-1 py-3 bg-gradient-to-r from-primary to-indigo-600 text-white font-bold rounded-xl shadow-md hover:scale-[1.02] transition-all disabled:opacity-50">
+          حفظ الخط
+        </button>
+        <button type="button" (click)="showAddModal = false" class="px-5 py-3 bg-surface-container-highest text-on-surface-variant font-bold rounded-xl">
+          إلغاء
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
+<!-- Edit Route Modal -->
+<div *ngIf="showEditModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 font-cairo" dir="rtl">
+  <div class="bg-surface-container-low border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+    <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+      <h3 class="text-xl font-black text-on-surface">تعديل بيانات خط السير</h3>
+      <button (click)="showEditModal = false" class="material-symbols-outlined text-on-surface-variant hover:text-white">close</button>
+    </div>
+
+    <form (ngSubmit)="updateRoute()" class="space-y-4 text-xs font-bold">
+      <div>
+        <label class="block mb-2 text-on-surface-variant">محطة القيام (بداية الخط)</label>
+        <select [(ngModel)]="editingRoute.startStationId" name="editStart" required class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary">
+          <option *ngFor="let st of stations" [value]="st._id">{{ st.name }} ({{ st.city }})</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-on-surface-variant">محطة الوصول (نهاية الخط)</label>
+        <select [(ngModel)]="editingRoute.endStationId" name="editEnd" required class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary">
+          <option *ngFor="let st of stations" [value]="st._id">{{ st.name }} ({{ st.city }})</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-2 text-on-surface-variant">المسافة (بالكيلومتر)</label>
+          <input [(ngModel)]="editingRoute.distance" name="editDist" type="number" min="1" class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary" />
+        </div>
+        <div>
+          <label class="block mb-2 text-on-surface-variant">الزمن المتوقع (بالدقيقة)</label>
+          <input [(ngModel)]="editingRoute.estimatedDuration" name="editDur" type="number" min="1" class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary" />
+        </div>
+      </div>
+
+      <div class="pt-4 flex gap-3">
+        <button type="submit" [disabled]="isSubmitting" class="flex-1 py-3 bg-gradient-to-r from-primary to-indigo-600 text-white font-bold rounded-xl shadow-md hover:scale-[1.02] transition-all disabled:opacity-50">
+          تعديل وحفظ التغييرات
+        </button>
+        <button type="button" (click)="showEditModal = false" class="px-5 py-3 bg-surface-container-highest text-on-surface-variant font-bold rounded-xl">
+          إلغاء
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>

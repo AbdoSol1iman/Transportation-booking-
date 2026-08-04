@@ -1,4 +1,4 @@
-export type UserRole = 'passenger' | 'driver' | 'admin';
+export type UserRole = 'passenger' | 'driver' | 'admin' | 'dispatcher';
 export type UserStatus = 'active' | 'blocked' | 'inactive';
 
 export interface User {
@@ -6,9 +6,10 @@ export interface User {
   fullName: string;
   email: string;
   phone: string;
+  password?: string;
   avatarUrl?: string | null;
   role: UserRole;
-  status: UserStatus;
+  status?: UserStatus;
   createdAt?: string;
   updatedAt?: string;
 }

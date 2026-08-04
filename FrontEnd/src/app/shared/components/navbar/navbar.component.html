@@ -1,62 +1,98 @@
-<header class="fixed top-0 w-full z-50 nav-blur bg-surface/60 border-b border-primary/20 glow-primary">
-  <div class="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+<header class="fixed top-0 w-full z-50 nav-blur bg-[#0d1012]/90 border-b border-white/10 shadow-lg font-cairo" dir="rtl">
+  <div class="h-20 max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4">
     
-    <!-- Logo & Brand -->
-    <div class="flex items-center gap-4">
-      <a routerLink="/" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xl shadow-[0_0_15px_rgba(79,70,229,0.4)]">
+    <!-- Brand Logo -->
+    <div class="flex items-center gap-3 shrink-0">
+      <a routerLink="/" class="flex items-center gap-2.5 group">
+        <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center font-bold text-xl shadow-[0_0_15px_rgba(79,70,229,0.5)]">
           <span class="material-symbols-outlined text-2xl">directions_bus</span>
         </div>
-        <span class="font-cairo font-extrabold text-2xl tracking-tight text-on-surface">رود<span class="text-secondary">بوكينج</span></span>
+        <span class="font-cairo font-extrabold text-xl sm:text-2xl tracking-tight text-white">رود<span class="text-[#c3f400]">بوكينج</span></span>
       </a>
     </div>
 
-    <!-- Arabic Navigation Links -->
-    <nav class="hidden md:flex items-center gap-6 text-sm font-cairo font-bold">
-      <a routerLink="/" routerLinkActive="text-primary font-extrabold" [routerLinkActiveOptions]="{exact: true}" class="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-lg">home</span>
+    <!-- Desktop Navigation Links -->
+    <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-xs sm:text-sm font-bold">
+      <a routerLink="/" routerLinkActive="text-[#c3f400] font-black" [routerLinkActiveOptions]="{exact: true}" class="text-zinc-300 hover:text-[#c3f400] transition-colors flex items-center gap-1.5 py-1">
+        <span class="material-symbols-outlined text-base">home</span>
         <span>الرئيسية</span>
       </a>
-      <a routerLink="/trips" routerLinkActive="text-primary font-extrabold" class="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-lg">explore</span>
-        <span>استكشاف الرحلات</span>
+      
+      <a routerLink="/trips" routerLinkActive="text-[#c3f400] font-black" class="text-zinc-300 hover:text-[#c3f400] transition-colors flex items-center gap-1.5 py-1">
+        <span class="material-symbols-outlined text-base">explore</span>
+        <span>الرحلات</span>
       </a>
-      <a routerLink="/bookings" routerLinkActive="text-primary font-extrabold" class="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-lg">confirmation_number</span>
+
+      <a *ngIf="authService.isLoggedIn()" routerLink="/bookings" routerLinkActive="text-[#c3f400] font-black" class="text-zinc-300 hover:text-[#c3f400] transition-colors flex items-center gap-1.5 py-1">
+        <span class="material-symbols-outlined text-base">confirmation_number</span>
         <span>حجوزاتي</span>
       </a>
-      <a routerLink="/dashboard" routerLinkActive="text-primary font-extrabold" class="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-lg">dashboard</span>
-        <span>لوحة التحكم</span>
-      </a>
-      <a routerLink="/stations" routerLinkActive="text-primary font-extrabold" class="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-lg">location_on</span>
-        <span>المحطات</span>
-      </a>
-      <a routerLink="/vehicles" routerLinkActive="text-primary font-extrabold" class="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-lg">directions_bus</span>
-        <span>الأسطول</span>
-      </a>
-      <a routerLink="/users" routerLinkActive="text-primary font-extrabold" class="text-on-surface-variant hover:text-primary transition-all duration-300 flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-lg">group</span>
-        <span>المستخدمين</span>
+
+      <a *ngIf="authService.isAdmin()" routerLink="/dashboard" routerLinkActive="text-[#c3f400] font-black" class="text-zinc-300 hover:text-[#c3f400] transition-colors flex items-center gap-1.5 py-1 bg-primary/10 px-4 py-1.5 rounded-full border border-primary/20">
+        <span class="material-symbols-outlined text-base text-primary">dashboard</span>
+        <span class="text-primary font-black">لوحة التحكم الشاملة</span>
       </a>
     </nav>
 
-    <!-- Right Actions & Profile -->
-    <div class="flex items-center gap-4">
-      <a routerLink="/trips" class="hidden lg:block bg-primary-container text-on-primary-container px-6 py-2.5 rounded-full font-cairo text-sm font-bold hover:bg-primary transition-colors shadow-[0_0_15px_rgba(79,70,229,0.3)]">
-        احجز رحلتك الآن
-      </a>
+    <!-- User Profile & Mobile Toggle -->
+    <div class="flex items-center gap-3 shrink-0">
+      
+      <!-- User Profile Badge -->
+      <div *ngIf="authService.isLoggedIn(); else guestActions" class="flex items-center gap-2">
+        <div class="flex items-center gap-2 bg-[#21262b] px-3.5 py-1.5 rounded-full border border-white/10 shadow-inner max-w-[150px] sm:max-w-none overflow-hidden">
+          <div class="w-7 h-7 rounded-full bg-primary/20 text-primary font-black flex items-center justify-center text-xs shrink-0 border border-primary/30">
+            {{ (authService.currentUser$ | async)?.fullName?.charAt(0) || 'U' }}
+          </div>
+          <span class="text-xs font-extrabold text-white truncate">
+            {{ (authService.currentUser$ | async)?.fullName }}
+          </span>
+        </div>
 
-      <!-- Profile Avatar -->
-      <a routerLink="/login" class="p-0.5 rounded-full bg-gradient-to-tr from-primary to-secondary glow-primary inline-block">
-        <img alt="Profile" class="w-9 h-9 rounded-full object-cover border-2 border-surface" src="https://lh3.googleusercontent.com/aida/AP1WRLuK80cwmPxlmh4TILDQ0yNKNwB-7IFfW6u_VV2R_-FoPHstR4uXdnKuUuHuesz89IUPqizOwmei5XP1QpjNBvBNAf2JrKKi5CA--qrsDknE3KPQKEKZRBArxECGxzDuqAOTzCIBuxYn_q1Uimqbt49f8EnpkyMTRp8uBFwDNaVN1s5_ywy7PqNeab_sfOuGXIYXVsnMQCgXGGwSlAuWlY9WWtavWkL4MDzc73Q8DYDYOFMGxjZNnrF9KQo" />
-      </a>
+        <button (click)="logout()" title="تسجيل الخروج" class="p-2 text-zinc-400 hover:text-red-400 transition-colors flex items-center rounded-xl bg-[#21262b] border border-white/10">
+          <span class="material-symbols-outlined text-lg">logout</span>
+        </button>
+      </div>
+
+      <ng-template #guestActions>
+        <div class="flex items-center gap-2">
+          <a routerLink="/login" class="px-3 py-2 text-xs font-bold text-white hover:text-primary transition-colors">
+            دخول
+          </a>
+          <a routerLink="/register" class="px-3.5 py-2 bg-primary text-white rounded-full text-xs font-bold shadow-md hover:scale-105 transition-all">
+            حساب جديد
+          </a>
+        </div>
+      </ng-template>
+
+      <!-- Mobile Burger Menu Button -->
+      <button (click)="toggleMobileMenu()" class="md:hidden p-2 text-zinc-300 hover:text-white bg-[#21262b] rounded-xl border border-white/10">
+        <span class="material-symbols-outlined text-2xl">{{ isMobileMenuOpen ? 'close' : 'menu' }}</span>
+      </button>
+
     </div>
 
   </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div *ngIf="isMobileMenuOpen" class="md:hidden bg-[#161a1d] border-b border-white/10 px-4 py-4 space-y-3 font-cairo shadow-2xl animate-fadeIn">
+    <a (click)="isMobileMenuOpen = false" routerLink="/" routerLinkActive="text-[#c3f400] bg-[#21262b]" [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-3 p-3 rounded-2xl text-xs font-bold text-zinc-300 hover:bg-[#21262b]">
+      <span class="material-symbols-outlined text-lg">home</span>
+      <span>الرئيسية</span>
+    </a>
+
+    <a (click)="isMobileMenuOpen = false" routerLink="/trips" routerLinkActive="text-[#c3f400] bg-[#21262b]" class="flex items-center gap-3 p-3 rounded-2xl text-xs font-bold text-zinc-300 hover:bg-[#21262b]">
+      <span class="material-symbols-outlined text-lg">explore</span>
+      <span>استكشاف الرحلات</span>
+    </a>
+
+    <a *ngIf="authService.isLoggedIn()" (click)="isMobileMenuOpen = false" routerLink="/bookings" routerLinkActive="text-[#c3f400] bg-[#21262b]" class="flex items-center gap-3 p-3 rounded-2xl text-xs font-bold text-zinc-300 hover:bg-[#21262b]">
+      <span class="material-symbols-outlined text-lg">confirmation_number</span>
+      <span>حجوزاتي المسجلة</span>
+    </a>
+
+    <a *ngIf="authService.isAdmin()" (click)="isMobileMenuOpen = false" routerLink="/dashboard" routerLinkActive="text-[#c3f400] bg-[#21262b]" class="flex items-center gap-3 p-3 rounded-2xl text-xs font-bold text-primary bg-primary/10 border border-primary/20">
+      <span class="material-symbols-outlined text-lg">dashboard</span>
+      <span>لوحة التحكم الشاملة</span>
+    </a>
+  </div>
 </header>
-
-
-

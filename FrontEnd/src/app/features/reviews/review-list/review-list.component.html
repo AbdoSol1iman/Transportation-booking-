@@ -1,113 +1,77 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<app-navbar></app-navbar>
+
+<main class="w-full pt-24 bg-background min-h-screen relative text-on-background overflow-hidden pb-32 font-cairo" dir="rtl">
   
-  <!-- Header Title -->
-  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-    <div>
-      <h1 class="text-2xl font-bold text-on-surface flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary text-3xl">star</span>
-        <span>تقييمات وآراء المسافرين</span>
-      </h1>
-      <p class="text-xs text-on-surface-variant mt-1">آراء وتقييمات العملاء حول جودة الحافلات، التزام السائقين بالمواعيد، وراحة الرحلة.</p>
-    </div>
-  </div>
-
-  <!-- Rating Summary Banner -->
-  <div class="bg-surface-container-lowest rounded-2xl p-6 border border-border-subtle mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
-    <div class="flex items-center gap-4">
-      <div class="text-center bg-primary/10 border border-primary/20 rounded-2xl p-4 min-w-[110px]">
-        <span class="text-4xl font-extrabold font-inter text-primary block">4.8</span>
-        <div class="flex items-center justify-center text-warning-amber text-xs my-1">
-          <span class="material-symbols-outlined text-base fill-current">star</span>
-          <span class="material-symbols-outlined text-base fill-current">star</span>
-          <span class="material-symbols-outlined text-base fill-current">star</span>
-          <span class="material-symbols-outlined text-base fill-current">star</span>
-          <span class="material-symbols-outlined text-base fill-current">star</span>
-        </div>
-        <span class="text-[10px] text-on-surface-variant font-medium">بناءً على 340 تقييم</span>
-      </div>
-
-      <div>
-        <h3 class="font-bold text-on-surface text-base mb-1">نسبة رضا العملاء العالية 🎉</h3>
-        <p class="text-xs text-on-surface-variant max-w-md">94% من المسافرين قاموا بتقييم رحلاتهم بـ 5 نجوم وأبدو ارتياحهم للنظافة والالتزام بالمواعيد.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Reviews List -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
     
-    <!-- Review Card 1 -->
-    <div class="bg-surface-container-lowest rounded-2xl p-5 border border-border-subtle hover:border-primary/40 hover:shadow-md transition-all">
-      <div class="flex items-start justify-between mb-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs">
-            أ م
-          </div>
-          <div>
-            <h4 class="font-bold text-on-surface text-sm">أحمد محمود</h4>
-            <span class="text-[11px] text-on-surface-variant">رحلة القاهرة ← دهب</span>
-          </div>
-        </div>
-
-        <div class="flex items-center text-warning-amber text-xs">
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="font-inter font-bold mr-1 text-on-surface text-xs">5.0</span>
-        </div>
-      </div>
-
-      <p class="text-xs text-on-surface leading-relaxed mb-3 bg-surface-container-low p-3 rounded-xl">
-        "الرحلة كانت ممتازة جداً، الحافلة واسعة ومكيفة بشكل رائع، والسائق كابتن محمود كان قمة في الأدب والالتزام بمواعيد الوصول."
-      </p>
-
-      <div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-2 border-t border-border-subtle font-inter">
-        <span>تاريخ التقييم: 12 Oct, 2026</span>
-        <span class="text-success-green font-semibold flex items-center gap-0.5">
-          <span class="material-symbols-outlined text-xs">verified</span>
-          <span>حجز مؤكد</span>
-        </span>
+    <!-- Header Title -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-black text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-3xl">star</span>
+          <span>تقييمات وآراء المسافرين</span>
+        </h1>
+        <p class="text-xs text-on-surface-variant mt-1">آراء وتقييمات العملاء المأخوذة مباشرة من قاعدة البيانات.</p>
       </div>
     </div>
 
-    <!-- Review Card 2 -->
-    <div class="bg-surface-container-lowest rounded-2xl p-5 border border-border-subtle hover:border-primary/40 hover:shadow-md transition-all">
-      <div class="flex items-start justify-between mb-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-surface-container text-on-surface font-bold flex items-center justify-center text-xs border border-border-subtle">
-            س ع
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="w-full py-16 flex flex-col items-center justify-center gap-4 bg-surface-container-low/40 rounded-3xl border border-white/10">
+      <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm font-bold text-on-surface-variant">جاري استعلام التقييمات من الباك إند...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage && !isLoading" class="w-full p-6 bg-red-500/10 border border-red-500/30 rounded-3xl text-center max-w-2xl mx-auto mb-8">
+      <p class="text-sm font-bold text-red-400 mb-3">{{ errorMessage }}</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && !errorMessage && reviews.length === 0" class="w-full py-20 flex flex-col items-center justify-center gap-4 bg-surface-container-low/40 rounded-3xl border border-white/10 text-center p-8 max-w-2xl mx-auto">
+      <div class="w-16 h-16 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+        <span class="material-symbols-outlined text-4xl">rate_review</span>
+      </div>
+      <h3 class="text-xl font-bold text-on-surface">لا توجد تقييمات مسجلة حتى الآن</h3>
+      <p class="text-xs text-on-surface-variant max-w-md">ستظهر تقييمات المسافرين هنا فور إضافتها للرحلات.</p>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div *ngIf="!isLoading && reviews.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <div *ngFor="let review of reviews" class="bg-surface-container-low/90 backdrop-blur-2xl rounded-3xl p-6 border border-white/10 shadow-2xl flex flex-col justify-between gap-4">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary/20 text-primary font-black flex items-center justify-center text-sm">
+              {{ getUserName(review).charAt(0) }}
+            </div>
+            <div>
+              <h4 class="font-black text-on-surface text-base">{{ getUserName(review) }}</h4>
+              <span class="text-xs text-on-surface-variant">{{ getTripTitle(review) }}</span>
+            </div>
           </div>
-          <div>
-            <h4 class="font-bold text-on-surface text-sm">سارة علي</h4>
-            <span class="text-[11px] text-on-surface-variant">رحلة القاهرة ← الإسكندرية</span>
+
+          <div class="flex items-center text-amber-400 gap-1 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 text-xs font-black">
+            <span class="material-symbols-outlined text-base">star</span>
+            <span>{{ review.rating }}.0</span>
           </div>
         </div>
 
-        <div class="flex items-center text-warning-amber text-xs">
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm fill-current">star</span>
-          <span class="material-symbols-outlined text-sm text-on-surface-variant">star</span>
-          <span class="font-inter font-bold mr-1 text-on-surface text-xs">4.0</span>
+        <p class="text-sm text-on-surface leading-relaxed bg-surface-container-highest/60 p-4 rounded-2xl border border-white/10">
+          "{{ review.comment || 'لا يوجد تعليق مكتوب.' }}"
+        </p>
+
+        <div class="flex items-center justify-between text-xs text-on-surface-variant pt-2 border-t border-white/10">
+          <span>تاريخ التقييم: {{ review.createdAt | date:'mediumDate' }}</span>
+          <span class="text-emerald-400 font-bold flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">verified</span>
+            <span>حجز مؤكد</span>
+          </span>
         </div>
       </div>
 
-      <p class="text-xs text-on-surface leading-relaxed mb-3 bg-surface-container-low p-3 rounded-xl">
-        "تجربة جيدة وسريعة، الـ Wi-Fi كان سريع شغال طول الطريق والتكييف رائع."
-      </p>
-
-      <div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-2 border-t border-border-subtle font-inter">
-        <span>تاريخ التقييم: 10 Oct, 2026</span>
-        <span class="text-success-green font-semibold flex items-center gap-0.5">
-          <span class="material-symbols-outlined text-xs">verified</span>
-          <span>حجز مؤكد</span>
-        </span>
-      </div>
     </div>
 
   </div>
-</div>
+</main>
 
+<app-footer></app-footer>

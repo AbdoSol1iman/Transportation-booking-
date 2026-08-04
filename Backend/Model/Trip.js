@@ -46,12 +46,19 @@ const tripSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['scheduled', 'inProgress', 'completed', 'cancelled'],
+    enum: ['scheduled', 'inProgress', 'completed', 'cancelled', 'fullyBooked'],
     default: 'scheduled',
     index: true,
   },
 }, {
   timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+});
+
+// Virtual: trip is closed to new bookings if not scheduled or if departure time passed
+tripSchema.virtual('isClosed').get(function () {
+  return this.status !== 'scheduled' || new Date(this.departureTime) <= new Date();
 });
 
 tripSchema.pre('save', function (next) {

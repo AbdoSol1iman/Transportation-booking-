@@ -1,4 +1,4 @@
-export type DriverStatus = 'available' | 'onTrip' | 'offline';
+export type DriverStatus = 'available' | 'onTrip' | 'offline' | 'active';
 
 export interface Driver {
   _id?: string;

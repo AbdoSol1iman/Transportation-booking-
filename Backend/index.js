@@ -19,15 +19,17 @@ const routeRoutes = require('./routes/routeRoutes');
 
 const globalErrorHandler = require('./middleware/errorHandler');
 const AppError = require('./utils/AppError');
+const { startAutoCloseJob } = require('./utils/autoCloseTrips');
 
 const app = express();
 
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 
+// Rate Limiter: Increased limit for development & testing to prevent 429 Too Many Requests
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 10000,
   message: {
     success: false,
     message: 'Too many requests from this IP, please try again after 15 minutes',
@@ -80,6 +82,8 @@ if (!MONGO_URI) {
     .connect(MONGO_URI)
     .then(() => {
       console.log('✅ Connected successfully to MongoDB');
+      // Start background job: auto-close expired / fully-booked trips every 60s
+      startAutoCloseJob(60_000);
     })
     .catch((err) => {
       console.error('❌ MongoDB Connection Error:', err);

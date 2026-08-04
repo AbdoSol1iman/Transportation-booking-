@@ -2,7 +2,7 @@ import { Route } from './route.model';
 import { Vehicle } from './vehicle.model';
 import { Driver } from './driver.model';
 
-export type TripStatus = 'scheduled' | 'inProgress' | 'completed' | 'cancelled';
+export type TripStatus = 'scheduled' | 'inProgress' | 'completed' | 'cancelled' | 'fullyBooked';
 
 export interface Trip {
   _id?: string;
