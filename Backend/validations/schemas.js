@@ -40,6 +40,8 @@ const createVehicleSchema = z.object({
   status: z.enum(['active', 'maintenance', 'inactive']).optional(),
 });
 
+const updateVehicleSchema = createVehicleSchema.partial();
+
 // Station Schema
 const createStationSchema = z.object({
   name: z.string().min(2).trim(),
@@ -92,6 +94,7 @@ module.exports = {
   updatePasswordSchema,
   createDriverSchema,
   createVehicleSchema,
+  updateVehicleSchema,
   createStationSchema,
   createRouteSchema,
   createTripSchema,

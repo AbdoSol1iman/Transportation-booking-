@@ -38,6 +38,7 @@ export class VehicleListComponent implements OnInit {
     model: '',
     capacity: 14,
     vehicleType: 'minibus' as 'bus' | 'minibus' | 'van',
+    status: 'active' as 'active' | 'maintenance' | 'inactive',
   };
 
   ngOnInit(): void {
@@ -100,6 +101,7 @@ export class VehicleListComponent implements OnInit {
       model: vehicle.model || '',
       capacity: vehicle.capacity || 14,
       vehicleType: (vehicle.vehicleType as any) || 'minibus',
+      status: (vehicle.status as any) || 'active',
     };
     this.showEditModal = true;
   }
@@ -115,6 +117,7 @@ export class VehicleListComponent implements OnInit {
         model: this.editingVehicle.model,
         capacity: Number(this.editingVehicle.capacity),
         vehicleType: this.editingVehicle.vehicleType,
+        status: this.editingVehicle.status,
       })
       .subscribe({
         next: () => {

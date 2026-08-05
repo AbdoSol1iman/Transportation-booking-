@@ -158,6 +158,15 @@
       </div>
 
       <div>
+        <label class="block mb-2 text-on-surface-variant">حالة المركبة</label>
+        <select [(ngModel)]="editingVehicle.status" name="editStatus" class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary">
+          <option value="active">جاهزة بالدورة (Active)</option>
+          <option value="maintenance">في الصيانة (Maintenance)</option>
+          <option value="inactive">غير متاحة (Inactive)</option>
+        </select>
+      </div>
+
+      <div>
         <label class="block mb-2 text-on-surface-variant">سعة المقاعد (Capacity)</label>
         <input [(ngModel)]="editingVehicle.capacity" name="editCapacity" type="number" min="1" class="w-full bg-surface-container-highest rounded-xl p-3 border border-white/10 text-on-surface outline-none focus:border-primary" />
       </div>

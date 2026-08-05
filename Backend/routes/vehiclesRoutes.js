@@ -10,7 +10,7 @@ const {
 const { protect, restrictTo } = require('../middleware/auth');
 const { ROLES } = require('../config/roles');
 const validate = require('../middleware/validate');
-const { createVehicleSchema } = require('../validations/schemas');
+const { createVehicleSchema, updateVehicleSchema } = require('../validations/schemas');
 
 router.get('/', getAllVehicles);
 router.get('/:id', getVehicleById);
@@ -19,7 +19,7 @@ router.get('/:id', getVehicleById);
 router.use(protect, restrictTo(ROLES.ADMIN, ROLES.DISPATCHER));
 
 router.post('/', validate(createVehicleSchema), createVehicle);
-router.patch('/:id', updateVehicle);
+router.patch('/:id', validate(updateVehicleSchema), updateVehicle);
 router.delete('/:id', deleteVehicle);
 
 module.exports = router;

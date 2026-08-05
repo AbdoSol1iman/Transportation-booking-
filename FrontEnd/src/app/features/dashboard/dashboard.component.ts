@@ -62,6 +62,7 @@ export class DashboardComponent implements OnInit {
   // Modals visibility
   showAddStationModal = false;
   showAddVehicleModal = false;
+  showEditVehicleModal = false;
   showAddRouteModal = false;
   showAddDriverModal = false;
   showAddTripModal = false;
@@ -70,7 +71,9 @@ export class DashboardComponent implements OnInit {
 
   // Form Models
   newStation = { name: '', city: '', address: '', latitude: 30.0444, longitude: 31.2357 };
-  newVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus' as 'bus' | 'minibus' | 'van' };
+  newVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus' as 'bus' | 'minibus' | 'van', status: 'active' as 'active' | 'maintenance' | 'inactive' };
+  editingVehicleId: string | null = null;
+  editingVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus' as 'bus' | 'minibus' | 'van', status: 'active' as 'active' | 'maintenance' | 'inactive' };
   newRoute = { startStationId: '', endStationId: '', distance: 150, estimatedDuration: 120 };
   newDriver = { fullName: '', phone: '', licenseNumber: '', experienceYears: 5 };
   newTrip = { routeId: '', vehicleId: '', driverId: '', departureTime: '', arrivalTime: '', price: 150, capacity: 14, imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80' };
@@ -195,7 +198,7 @@ export class DashboardComponent implements OnInit {
       next: () => {
         this.isSubmitting = false;
         this.showAddVehicleModal = false;
-        this.newVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus' };
+        this.newVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus', status: 'active' };
         alert('تم إضافة المركبة بنجاح!');
         this.fetchAllData();
       },
@@ -210,6 +213,46 @@ export class DashboardComponent implements OnInit {
     if (confirm('هل أنت تأكد من حذف المركبة؟')) {
       this.vehicleService.deleteVehicle(id).subscribe(() => this.fetchAllData());
     }
+  }
+
+  openEditVehicleModal(vehicle: Vehicle): void {
+    this.editingVehicleId = vehicle._id || null;
+    this.editingVehicle = {
+      plateNumber: vehicle.plateNumber || '',
+      model: vehicle.model || '',
+      capacity: vehicle.capacity || 14,
+      vehicleType: (vehicle.vehicleType as any) || 'minibus',
+      status: (vehicle.status as any) || 'active',
+    };
+    this.showEditVehicleModal = true;
+    this.cdr.detectChanges();
+  }
+
+  updateVehicle(): void {
+    if (!this.editingVehicleId) return;
+
+    this.isSubmitting = true;
+    this.vehicleService
+      .updateVehicle(this.editingVehicleId, {
+        plateNumber: this.editingVehicle.plateNumber,
+        model: this.editingVehicle.model,
+        capacity: Number(this.editingVehicle.capacity),
+        vehicleType: this.editingVehicle.vehicleType,
+        status: this.editingVehicle.status,
+      })
+      .subscribe({
+        next: () => {
+          this.isSubmitting = false;
+          this.showEditVehicleModal = false;
+          alert('تم تعديل بيانات المركبة بنجاح!');
+          this.fetchAllData();
+        },
+        error: (err) => {
+          this.isSubmitting = false;
+          alert(err?.error?.message || 'تعذر تعديل المركبة.');
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   createRoute(): void {

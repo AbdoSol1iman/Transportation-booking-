@@ -279,13 +279,27 @@
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <div *ngFor="let v of vehiclesList" class="bg-[#161a1d] p-5 sm:p-6 rounded-3xl border border-white/10 flex justify-between items-center shadow-xl">
+            <div *ngFor="let v of vehiclesList" class="bg-[#161a1d] p-5 sm:p-6 rounded-3xl border border-white/10 flex flex-col justify-between gap-4 shadow-xl">
               <div>
-                <span class="text-xs text-[#c3f400] font-bold">{{ v.vehicleType }}</span>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-[#c3f400] font-bold uppercase">{{ v.vehicleType }}</span>
+                  <span class="text-[11px] font-bold px-2 py-0.5 rounded-full" [ngClass]="v.status === 'active' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'">
+                    {{ v.status || 'active' }}
+                  </span>
+                </div>
                 <h3 class="text-base sm:text-lg font-black text-white mt-1">{{ v.model }} ({{ v.plateNumber }})</h3>
-                <span class="text-xs text-zinc-400 block mt-0.5 font-mono">سعة الكراسي: {{ v.capacity }}</span>
+                <span class="text-xs text-zinc-400 block mt-0.5 font-mono">سعة الكراسي: {{ v.capacity }} مقعد</span>
               </div>
-              <button (click)="deleteVehicle(v._id!)" class="px-3.5 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold hover:bg-red-500 hover:text-white transition-all">حذف</button>
+              <div class="flex gap-2 pt-2 border-t border-white/10">
+                <button (click)="openEditVehicleModal(v)" class="flex-1 py-2 bg-primary/20 text-primary border border-primary/30 rounded-xl text-xs font-bold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-sm">edit</span>
+                  <span>تعديل</span>
+                </button>
+                <button (click)="deleteVehicle(v._id!)" class="px-3.5 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold hover:bg-red-500 hover:text-white transition-all flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-sm">delete</span>
+                  <span>حذف</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -371,16 +385,74 @@
   <div class="bg-[#161a1d] border border-white/10 rounded-3xl p-6 max-w-md w-full shadow-2xl">
     <h3 class="text-xl font-black text-white mb-4">إضافة مركبة جديدة</h3>
     <form (ngSubmit)="createVehicle()" class="space-y-3 text-xs font-bold">
-      <input [(ngModel)]="newVehicle.plateNumber" name="vPlate" placeholder="رقم اللوحة" required class="w-full bg-[#21262b] p-3 rounded-xl border border-white/10 text-white" />
-      <input [(ngModel)]="newVehicle.model" name="vModel" placeholder="الموديل" required class="w-full bg-[#21262b] p-3 rounded-xl border border-white/10 text-white" />
-      <select [(ngModel)]="newVehicle.vehicleType" name="vType" class="w-full bg-[#21262b] p-3 rounded-xl border border-white/10 text-white">
+      <input [(ngModel)]="newVehicle.plateNumber" name="vPlate" placeholder="رقم اللوحة" required class="w-full bg-[#21262b] p-3 rounded-xl border border-white/10 text-white outline-none focus:border-primary" />
+      <input [(ngModel)]="newVehicle.model" name="vModel" placeholder="الموديل" required class="w-full bg-[#21262b] p-3 rounded-xl border border-white/10 text-white outline-none focus:border-primary" />
+      <select [(ngModel)]="newVehicle.vehicleType" name="vType" class="w-full bg-[#21262b] p-3 rounded-xl border border-white/10 text-white outline-none focus:border-primary">
         <option value="minibus">ميكروباص</option>
         <option value="bus">أتوبيس</option>
         <option value="van">فان</option>
       </select>
+      <input [(ngModel)]="newVehicle.capacity" name="vCap" type="number" min="1" placeholder="سعة المقاعد" class="w-full bg-[#21262b] p-3 rounded-xl border border-white/10 text-white outline-none focus:border-primary" />
       <div class="flex gap-2 pt-3">
-        <button type="submit" class="flex-1 py-3 bg-primary text-white rounded-xl font-bold">حفظ</button>
+        <button type="submit" [disabled]="isSubmitting" class="flex-1 py-3 bg-primary text-white rounded-xl font-bold hover:scale-[1.02] transition-all disabled:opacity-50">حفظ</button>
         <button type="button" (click)="showAddVehicleModal = false" class="px-4 py-3 bg-[#21262b] text-zinc-300 rounded-xl">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Vehicle Modal -->
+<div *ngIf="showEditVehicleModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 font-cairo" dir="rtl">
+  <div class="bg-[#161a1d] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+    <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+      <h3 class="text-xl font-black text-white flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-2xl">directions_bus</span>
+        <span>تعديل بيانات المركبة</span>
+      </h3>
+      <button (click)="showEditVehicleModal = false" class="material-symbols-outlined text-zinc-400 hover:text-white">close</button>
+    </div>
+
+    <form (ngSubmit)="updateVehicle()" class="space-y-4 text-xs font-bold">
+      <div>
+        <label class="block mb-2 text-zinc-400">رقم اللوحة المعدنية</label>
+        <input [(ngModel)]="editingVehicle.plateNumber" name="editVPlate" required type="text" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">الموديل / اسم المركبة</label>
+        <input [(ngModel)]="editingVehicle.model" name="editVModel" required type="text" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">تصنيف الحافلة</label>
+        <select [(ngModel)]="editingVehicle.vehicleType" name="editVType" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary">
+          <option value="minibus">ميكروباص (Minibus)</option>
+          <option value="bus">أتوبيس كبير (Bus)</option>
+          <option value="van">فان (Van)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">حالة المركبة</label>
+        <select [(ngModel)]="editingVehicle.status" name="editVStatus" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary">
+          <option value="active">جاهزة للرحلات (Active)</option>
+          <option value="maintenance">في الصيانة (Maintenance)</option>
+          <option value="inactive">غير متاحة (Inactive)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">سعة المقاعد (Capacity)</label>
+        <input [(ngModel)]="editingVehicle.capacity" name="editVCapacity" type="number" min="1" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+      </div>
+
+      <div class="pt-4 flex gap-3">
+        <button type="submit" [disabled]="isSubmitting" class="flex-1 py-3.5 bg-gradient-to-r from-primary to-indigo-600 text-white font-bold rounded-xl shadow-md hover:scale-[1.02] transition-all disabled:opacity-50">
+          تعديل وحفظ التغييرات
+        </button>
+        <button type="button" (click)="showEditVehicleModal = false" class="px-5 py-3.5 bg-[#21262b] text-zinc-300 font-bold rounded-xl">
+          إلغاء
+        </button>
       </div>
     </form>
   </div>
