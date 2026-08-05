@@ -90,7 +90,7 @@ if (!MONGO_URI) {
     });
 }
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.listen(port, () => {
     console.log(`🚀 Server is running on http://localhost:${port}`);
     console.log(`📖 Swagger Documentation UI: http://localhost:${port}/api-docs`);
