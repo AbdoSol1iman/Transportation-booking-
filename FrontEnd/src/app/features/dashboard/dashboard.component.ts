@@ -73,12 +73,12 @@ export class DashboardComponent implements OnInit {
   newVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus' as 'bus' | 'minibus' | 'van' };
   newRoute = { startStationId: '', endStationId: '', distance: 150, estimatedDuration: 120 };
   newDriver = { fullName: '', phone: '', licenseNumber: '', experienceYears: 5 };
-  newTrip = { routeId: '', vehicleId: '', driverId: '', departureTime: '', arrivalTime: '', price: 150, capacity: 14 };
+  newTrip = { routeId: '', vehicleId: '', driverId: '', departureTime: '', arrivalTime: '', price: 150, capacity: 14, imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80' };
 
   editingTripId: string | null = null;
-  editingTrip = { routeId: '', vehicleId: '', driverId: '', departureTime: '', arrivalTime: '', price: 150, capacity: 14 };
+  editingTrip = { routeId: '', vehicleId: '', driverId: '', departureTime: '', arrivalTime: '', price: 150, capacity: 14, imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80' };
 
-  cardImages: string[] = [
+  systemDefaultImages: string[] = [
     'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=800&q=80',
@@ -290,6 +290,7 @@ export class DashboardComponent implements OnInit {
       arrivalTime: new Date(this.newTrip.arrivalTime).toISOString(),
       price: Number(this.newTrip.price),
       capacity: Number(this.newTrip.capacity),
+      imageUrl: this.newTrip.imageUrl || this.systemDefaultImages[0],
     }).subscribe({
       next: () => {
         this.isSubmitting = false;
@@ -304,27 +305,53 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  formatForDateTimeLocal(dateStr?: string | Date): string {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    } catch {
+      return '';
+    }
+  }
+
+  formatDate(dateStr?: string | Date): string {
+    if (!dateStr) return 'تاريخ غير محدد';
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('ar-EG', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+    } catch {
+      return 'تاريخ غير محدد';
+    }
+  }
+
+  formatTime(dateStr?: string | Date): string {
+    if (!dateStr) return '08:00 م';
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+    } catch {
+      return '08:00 م';
+    }
+  }
+
   openEditTripModal(trip: Trip): void {
     this.editingTripId = trip._id || null;
     const rId = typeof trip.routeId === 'object' ? trip.routeId._id : trip.routeId;
     const vId = typeof trip.vehicleId === 'object' ? trip.vehicleId._id : trip.vehicleId;
     const dId = typeof trip.driverId === 'object' ? trip.driverId._id : trip.driverId;
 
-    let depStr = '';
-    let arrStr = '';
-    try {
-      if (trip.departureTime) depStr = new Date(trip.departureTime).toISOString().slice(0, 16);
-      if (trip.arrivalTime) arrStr = new Date(trip.arrivalTime).toISOString().slice(0, 16);
-    } catch {}
-
     this.editingTrip = {
       routeId: rId || '',
       vehicleId: vId || '',
       driverId: dId || '',
-      departureTime: depStr,
-      arrivalTime: arrStr,
+      departureTime: this.formatForDateTimeLocal(trip.departureTime),
+      arrivalTime: this.formatForDateTimeLocal(trip.arrivalTime),
       price: trip.price || 150,
       capacity: trip.capacity || 14,
+      imageUrl: trip.imageUrl || this.systemDefaultImages[0],
     };
     this.showEditTripModal = true;
     this.cdr.detectChanges();
@@ -344,6 +371,7 @@ export class DashboardComponent implements OnInit {
       arrivalTime: arrISO,
       price: Number(this.editingTrip.price),
       capacity: Number(this.editingTrip.capacity),
+      imageUrl: this.editingTrip.imageUrl || this.systemDefaultImages[0],
     }).subscribe({
       next: () => {
         this.isSubmitting = false;
@@ -360,7 +388,7 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteTrip(id: string): void {
-    if (confirm('هل أنت تأكد من حذف الرحلة؟')) {
+    if (confirm('هل أنت متأكد من حذف هذه الرحلة؟')) {
       this.tripService.deleteTrip(id).subscribe(() => this.fetchAllData());
     }
   }
@@ -393,8 +421,12 @@ export class DashboardComponent implements OnInit {
     return 'خط سير';
   }
 
-  getTripImage(index: number): string {
-    return this.cardImages[index % this.cardImages.length];
+  getTripImage(tripOrIndex: any, index?: number): string {
+    if (typeof tripOrIndex === 'object' && tripOrIndex?.imageUrl) {
+      return tripOrIndex.imageUrl;
+    }
+    const idx = typeof tripOrIndex === 'number' ? tripOrIndex : (index || 0);
+    return this.systemDefaultImages[idx % this.systemDefaultImages.length];
   }
 
   logout(): void {

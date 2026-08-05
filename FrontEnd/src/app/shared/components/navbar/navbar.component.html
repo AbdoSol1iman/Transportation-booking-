@@ -39,7 +39,7 @@
       
       <!-- User Profile Badge -->
       <div *ngIf="authService.isLoggedIn(); else guestActions" class="flex items-center gap-2">
-        <div class="flex items-center gap-2 bg-[#21262b] px-3.5 py-1.5 rounded-full border border-white/10 shadow-inner max-w-[150px] sm:max-w-none overflow-hidden">
+        <div class="flex items-center gap-1.5 sm:gap-2 bg-[#21262b] px-2.5 sm:px-3.5 py-1.5 rounded-full border border-white/10 shadow-inner max-w-[110px] sm:max-w-[180px] md:max-w-none overflow-hidden">
           <div class="w-7 h-7 rounded-full bg-primary/20 text-primary font-black flex items-center justify-center text-xs shrink-0 border border-primary/30">
             {{ (authService.currentUser$ | async)?.fullName?.charAt(0) || 'U' }}
           </div>

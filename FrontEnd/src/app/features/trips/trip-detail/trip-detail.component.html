@@ -25,7 +25,7 @@
     <!-- ── Hero Image ──────────────────────────────────────────────────────── -->
     <section class="relative w-full h-[380px] lg:h-[460px] -mt-20 z-0 overflow-hidden">
       <div class="absolute inset-0 w-full h-full bg-cover bg-center"
-        style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop')">
+        [style.background-image]="'url(' + (trip.imageUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop') + ')'">
       </div>
       <!-- Gradient overlay -->
       <div class="absolute inset-0 bg-gradient-to-t from-[#0d1012] via-[#0d1012]/50 to-transparent"></div>
@@ -65,32 +65,32 @@
 
           <!-- Route Header -->
           <div>
-            <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight break-words">
               {{ startStationName }}
-              <span class="text-[#c3f400] mx-2">➔</span>
+              <span class="text-[#c3f400] mx-1 sm:mx-2">➔</span>
               {{ endStationName }}
             </h1>
-            <p class="text-sm text-zinc-400 font-semibold mt-2">{{ formatDate(trip.departureTime) }}</p>
+            <p class="text-xs sm:text-sm text-zinc-400 font-semibold mt-2">{{ formatDate(trip.departureTime) }}</p>
           </div>
 
           <!-- ── Trip Timeline Card ────────────────────────────────────────── -->
-          <section class="bg-[#161a1d]/90 backdrop-blur-xl rounded-3xl p-6 border border-white/10 shadow-xl">
-            <h2 class="text-base font-black text-white flex items-center gap-2 mb-5">
+          <section class="bg-[#161a1d]/90 backdrop-blur-xl rounded-3xl p-4 sm:p-6 border border-white/10 shadow-xl">
+            <h2 class="text-sm sm:text-base font-black text-white flex items-center gap-2 mb-4 sm:mb-5">
               <span class="material-symbols-outlined text-[#c3f400] text-lg">schedule</span>
               مواعيد الرحلة والمدة
             </h2>
 
-            <div class="flex items-center gap-4">
+            <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <!-- Departure -->
-              <div class="flex-1 text-center p-4 bg-[#1e2328] rounded-2xl border border-white/5">
+              <div class="w-full sm:flex-1 text-center p-3.5 sm:p-4 bg-[#1e2328] rounded-2xl border border-white/5 overflow-hidden">
                 <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mb-1">مغادرة</p>
-                <p class="text-3xl font-black text-white font-mono">{{ formatTime(trip.departureTime) }}</p>
-                <p class="text-xs text-zinc-400 mt-1">{{ startStationName }}</p>
+                <p class="text-2xl sm:text-3xl font-black text-white font-mono">{{ formatTime(trip.departureTime) }}</p>
+                <p class="text-xs text-zinc-400 mt-1 truncate">{{ startStationName }}</p>
               </div>
 
               <!-- Duration -->
-              <div class="flex flex-col items-center gap-1 px-3">
-                <div class="flex items-center gap-1 w-full">
+              <div class="flex sm:flex-col items-center gap-2 sm:gap-1 px-3 py-1">
+                <div class="flex items-center gap-1 w-20 sm:w-full">
                   <div class="flex-1 h-px bg-zinc-700"></div>
                   <span class="material-symbols-outlined text-[#c3f400] text-base">directions_bus</span>
                   <div class="flex-1 h-px bg-zinc-700"></div>
@@ -99,10 +99,10 @@
               </div>
 
               <!-- Arrival -->
-              <div class="flex-1 text-center p-4 bg-[#1e2328] rounded-2xl border border-white/5">
+              <div class="w-full sm:flex-1 text-center p-3.5 sm:p-4 bg-[#1e2328] rounded-2xl border border-white/5 overflow-hidden">
                 <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mb-1">وصول</p>
-                <p class="text-3xl font-black text-white font-mono">{{ formatTime(trip.arrivalTime) }}</p>
-                <p class="text-xs text-zinc-400 mt-1">{{ endStationName }}</p>
+                <p class="text-2xl sm:text-3xl font-black text-white font-mono">{{ formatTime(trip.arrivalTime) }}</p>
+                <p class="text-xs text-zinc-400 mt-1 truncate">{{ endStationName }}</p>
               </div>
             </div>
           </section>

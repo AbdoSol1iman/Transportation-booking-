@@ -72,7 +72,7 @@ exports.getTripById = catchAsync(async (req, res, next) => {
 });
 
 exports.createTrip = catchAsync(async (req, res, next) => {
-  const { routeId, vehicleId, driverId, departureTime, arrivalTime, price, capacity } = req.body;
+  const { routeId, vehicleId, driverId, departureTime, arrivalTime, price, capacity, imageUrl } = req.body;
 
   const [route, vehicle, driver] = await Promise.all([
     Route.findById(routeId),
@@ -92,6 +92,7 @@ exports.createTrip = catchAsync(async (req, res, next) => {
     arrivalTime,
     price,
     capacity: capacity || vehicle.capacity,
+    imageUrl: imageUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
   });
 
   const populatedTrip = await Trip.findById(trip._id).populate([

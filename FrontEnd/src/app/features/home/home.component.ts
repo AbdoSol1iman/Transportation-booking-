@@ -106,7 +106,38 @@ export class HomeComponent implements OnInit {
     return trip.capacity || 14;
   }
 
-  getTripImage(index: number): string {
-    return this.cardImages[index % this.cardImages.length];
+  systemDefaultImages: string[] = [
+    'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80',
+  ];
+
+  formatDate(dateStr?: string | Date): string {
+    if (!dateStr) return 'تاريخ غير محدد';
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('ar-EG', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+    } catch {
+      return 'تاريخ غير محدد';
+    }
+  }
+
+  formatTime(dateStr?: string | Date): string {
+    if (!dateStr) return '08:00 م';
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+    } catch {
+      return '08:00 م';
+    }
+  }
+
+  getTripImage(tripOrIndex: any, index?: number): string {
+    if (typeof tripOrIndex === 'object' && tripOrIndex?.imageUrl) {
+      return tripOrIndex.imageUrl;
+    }
+    const idx = typeof tripOrIndex === 'number' ? tripOrIndex : (index || 0);
+    return this.systemDefaultImages[idx % this.systemDefaultImages.length];
   }
 }

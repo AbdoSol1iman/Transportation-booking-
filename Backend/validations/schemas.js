@@ -69,6 +69,7 @@ const createTripSchema = z.object({
   price: z.number().min(0, 'Price cannot be negative'),
   capacity: z.number().int().positive('Capacity must be positive'),
   status: z.enum(['scheduled', 'inProgress', 'completed', 'cancelled']).optional(),
+  imageUrl: z.string().optional(),
 });
 
 // Booking Schema

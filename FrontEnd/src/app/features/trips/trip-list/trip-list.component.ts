@@ -83,6 +83,7 @@ export class TripListComponent implements OnInit {
     arrivalTime: '',
     price: 150,
     capacity: 14,
+    imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
   };
 
   editingTripId: string | null = null;
@@ -94,9 +95,10 @@ export class TripListComponent implements OnInit {
     arrivalTime: '',
     price: 150,
     capacity: 14,
+    imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
   };
 
-  cardImages: string[] = [
+  systemDefaultImages: string[] = [
     'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=800&q=80',
@@ -389,6 +391,7 @@ export class TripListComponent implements OnInit {
         arrivalTime: arrISO,
         price: Number(this.newTrip.price),
         capacity: Number(this.newTrip.capacity),
+        imageUrl: this.newTrip.imageUrl || this.systemDefaultImages[0],
       })
       .subscribe({
         next: () => {
@@ -405,6 +408,28 @@ export class TripListComponent implements OnInit {
       });
   }
 
+  formatForDateTimeLocal(dateStr?: string | Date): string {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    } catch {
+      return '';
+    }
+  }
+
+  formatDate(dateStr?: string | Date): string {
+    if (!dateStr) return 'تاريخ غير محدد';
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('ar-EG', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+    } catch {
+      return 'تاريخ غير محدد';
+    }
+  }
+
   openEditModal(trip: Trip): void {
     this.editingTripId = trip._id || null;
 
@@ -412,21 +437,15 @@ export class TripListComponent implements OnInit {
     const vId = typeof trip.vehicleId === 'object' ? trip.vehicleId._id : trip.vehicleId;
     const dId = typeof trip.driverId === 'object' ? trip.driverId._id : trip.driverId;
 
-    let depStr = '';
-    let arrStr = '';
-    try {
-      if (trip.departureTime) depStr = new Date(trip.departureTime).toISOString().slice(0, 16);
-      if (trip.arrivalTime) arrStr = new Date(trip.arrivalTime).toISOString().slice(0, 16);
-    } catch {}
-
     this.editingTrip = {
       routeId: rId || '',
       vehicleId: vId || '',
       driverId: dId || '',
-      departureTime: depStr,
-      arrivalTime: arrStr,
+      departureTime: this.formatForDateTimeLocal(trip.departureTime),
+      arrivalTime: this.formatForDateTimeLocal(trip.arrivalTime),
       price: trip.price || 150,
       capacity: trip.capacity || 14,
+      imageUrl: trip.imageUrl || this.systemDefaultImages[0],
     };
     this.showEditModal = true;
   }
@@ -448,6 +467,7 @@ export class TripListComponent implements OnInit {
         arrivalTime: arrISO,
         price: Number(this.editingTrip.price),
         capacity: Number(this.editingTrip.capacity),
+        imageUrl: this.editingTrip.imageUrl || this.systemDefaultImages[0],
       })
       .subscribe({
         next: () => {
@@ -525,8 +545,12 @@ export class TripListComponent implements OnInit {
     }
   }
 
-  getTripImage(index: number): string {
-    return this.cardImages[index % this.cardImages.length];
+  getTripImage(tripOrIndex: any, index?: number): string {
+    if (typeof tripOrIndex === 'object' && tripOrIndex?.imageUrl) {
+      return tripOrIndex.imageUrl;
+    }
+    const idx = typeof tripOrIndex === 'number' ? tripOrIndex : (index || 0);
+    return this.systemDefaultImages[idx % this.systemDefaultImages.length];
   }
 
   getRouteLabel(r: Route): string {

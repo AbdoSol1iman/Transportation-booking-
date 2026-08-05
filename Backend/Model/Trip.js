@@ -50,6 +50,10 @@ const tripSchema = new Schema({
     default: 'scheduled',
     index: true,
   },
+  imageUrl: {
+    type: String,
+    default: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+  },
 }, {
   timestamps: true,
   toJSON: { virtuals: true },

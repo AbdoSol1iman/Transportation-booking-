@@ -202,7 +202,7 @@
               
               <!-- Image Header -->
               <div class="h-44 sm:h-48 w-full relative overflow-hidden bg-zinc-900">
-                <img [src]="getTripImage(i)" alt="Trip Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                <img [src]="getTripImage(trip, i)" (error)="$any($event.target).src = systemDefaultImages[0]" alt="Trip Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
                 <div class="absolute inset-0 bg-gradient-to-t from-[#161a1d] via-[#161a1d]/30 to-transparent"></div>
                 <div class="absolute top-4 right-4 z-10">
                   <span class="px-3 py-1 rounded-full text-[10px] font-black bg-[#c3f400] text-black shadow-md uppercase">🔥 رحلة فورية</span>
@@ -213,6 +213,10 @@
               <div class="p-5 sm:p-6 relative -mt-8 z-20">
                 <div class="flex justify-between items-start mb-3">
                   <div>
+                    <div class="flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
+                      <span class="material-symbols-outlined text-sm">calendar_month</span>
+                      <span>{{ formatDate(trip.departureTime) }} ({{ formatTime(trip.departureTime) }})</span>
+                    </div>
                     <h3 class="text-lg sm:text-xl font-black text-white">
                       {{ getStartStationName(trip) }} <span class="text-primary font-normal">➔</span> {{ getEndStationName(trip) }}
                     </h3>
@@ -382,6 +386,102 @@
   </div>
 </div>
 
+<!-- Add Route Modal -->
+<div *ngIf="showAddRouteModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 font-cairo" dir="rtl">
+  <div class="bg-[#161a1d] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+    <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+      <h3 class="text-xl font-black text-white flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-2xl">alt_route</span>
+        <span>إضافة خط سير جديد</span>
+      </h3>
+      <button (click)="showAddRouteModal = false" class="material-symbols-outlined text-zinc-400 hover:text-white">close</button>
+    </div>
+
+    <form (ngSubmit)="createRoute()" class="space-y-4 text-xs font-bold">
+      <div>
+        <label class="block mb-2 text-zinc-400">اختر محطة القيام (البداية)</label>
+        <select [(ngModel)]="newRoute.startStationId" name="rStart" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary">
+          <option value="" disabled selected>اختر محطة القيام</option>
+          <option *ngFor="let s of stationsList" [value]="s._id" class="bg-[#161a1d] text-white">{{ s.name || s.city }} ({{ s.city }})</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">اختر محطة الوصول (النهاية)</label>
+        <select [(ngModel)]="newRoute.endStationId" name="rEnd" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary">
+          <option value="" disabled selected>اختر محطة الوصول</option>
+          <option *ngFor="let s of stationsList" [value]="s._id" class="bg-[#161a1d] text-white">{{ s.name || s.city }} ({{ s.city }})</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-2 text-zinc-400">المسافة (كم)</label>
+          <input [(ngModel)]="newRoute.distance" name="rDist" type="number" min="1" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+        </div>
+        <div>
+          <label class="block mb-2 text-zinc-400">الزمن المتوقع (دقيقة)</label>
+          <input [(ngModel)]="newRoute.estimatedDuration" name="rDur" type="number" min="1" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+        </div>
+      </div>
+
+      <div class="pt-4 flex gap-3">
+        <button type="submit" [disabled]="isSubmitting" class="flex-1 py-3.5 bg-gradient-to-r from-primary to-indigo-600 text-white font-bold rounded-xl shadow-md hover:scale-[1.02] transition-all disabled:opacity-50">
+          حفظ وإنشاء خط السير
+        </button>
+        <button type="button" (click)="showAddRouteModal = false" class="px-5 py-3.5 bg-[#21262b] text-zinc-300 font-bold rounded-xl">
+          إلغاء
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Driver Modal -->
+<div *ngIf="showAddDriverModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 font-cairo" dir="rtl">
+  <div class="bg-[#161a1d] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+    <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+      <h3 class="text-xl font-black text-white flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-2xl">badge</span>
+        <span>إضافة كابتن / سائق جديد</span>
+      </h3>
+      <button (click)="showAddDriverModal = false" class="material-symbols-outlined text-zinc-400 hover:text-white">close</button>
+    </div>
+
+    <form (ngSubmit)="createDriver()" class="space-y-4 text-xs font-bold">
+      <div>
+        <label class="block mb-2 text-zinc-400">اسم السائق الكابتن الرباعي</label>
+        <input [(ngModel)]="newDriver.fullName" name="dName" placeholder="الاسم الكامل" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">رقم الهاتف التواصل</label>
+        <input [(ngModel)]="newDriver.phone" name="dPhone" placeholder="01xxxxxxxxx" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-2 text-zinc-400">رقم الرخصة</label>
+          <input [(ngModel)]="newDriver.licenseNumber" name="dLic" placeholder="رقم الرخصة" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+        </div>
+        <div>
+          <label class="block mb-2 text-zinc-400">سنوات الخبرة</label>
+          <input [(ngModel)]="newDriver.experienceYears" name="dExp" type="number" min="0" required class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
+        </div>
+      </div>
+
+      <div class="pt-4 flex gap-3">
+        <button type="submit" [disabled]="isSubmitting" class="flex-1 py-3.5 bg-gradient-to-r from-primary to-indigo-600 text-white font-bold rounded-xl shadow-md hover:scale-[1.02] transition-all disabled:opacity-50">
+          حفظ الكابتن
+        </button>
+        <button type="button" (click)="showAddDriverModal = false" class="px-5 py-3.5 bg-[#21262b] text-zinc-300 font-bold rounded-xl">
+          إلغاء
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- Add Trip Modal in Dashboard -->
 <div *ngIf="showAddTripModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 font-cairo" dir="rtl">
   <div class="bg-[#161a1d] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative">
@@ -438,6 +538,22 @@
           <label class="block mb-2 text-zinc-400">السعة الإجمالية</label>
           <input [(ngModel)]="newTrip.capacity" name="dashCapacity" type="number" min="1" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
         </div>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">صورة الرحلة (اختر صورة افتراضية من النظام)</label>
+        <div class="grid grid-cols-4 gap-2 mb-2">
+          <div *ngFor="let imgUrl of systemDefaultImages"
+               (click)="newTrip.imageUrl = imgUrl"
+               class="relative h-16 rounded-xl overflow-hidden cursor-pointer border-2 transition-all"
+               [ngClass]="newTrip.imageUrl === imgUrl ? 'border-primary shadow-[0_0_12px_rgba(195,244,0,0.5)] scale-95' : 'border-white/10 opacity-60 hover:opacity-100'">
+            <img [src]="imgUrl" alt="System Image" class="w-full h-full object-cover" />
+            <div *ngIf="newTrip.imageUrl === imgUrl" class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-xl font-bold">check_circle</span>
+            </div>
+          </div>
+        </div>
+        <input [(ngModel)]="newTrip.imageUrl" name="dashImageUrl" type="url" placeholder="أو أدخل رابط صورة مخصص (URL)" class="w-full bg-[#21262b] rounded-xl p-2.5 border border-white/10 text-white outline-none focus:border-primary text-xs" />
       </div>
 
       <div class="pt-4 flex gap-3">
@@ -505,6 +621,22 @@
           <label class="block mb-2 text-zinc-400">السعة الإجمالية</label>
           <input [(ngModel)]="editingTrip.capacity" name="dashEditCapacity" type="number" min="1" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
         </div>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">صورة الرحلة (اختر صورة افتراضية من النظام)</label>
+        <div class="grid grid-cols-4 gap-2 mb-2">
+          <div *ngFor="let imgUrl of systemDefaultImages"
+               (click)="editingTrip.imageUrl = imgUrl"
+               class="relative h-16 rounded-xl overflow-hidden cursor-pointer border-2 transition-all"
+               [ngClass]="editingTrip.imageUrl === imgUrl ? 'border-primary shadow-[0_0_12px_rgba(195,244,0,0.5)] scale-95' : 'border-white/10 opacity-60 hover:opacity-100'">
+            <img [src]="imgUrl" alt="System Image" class="w-full h-full object-cover" />
+            <div *ngIf="editingTrip.imageUrl === imgUrl" class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-xl font-bold">check_circle</span>
+            </div>
+          </div>
+        </div>
+        <input [(ngModel)]="editingTrip.imageUrl" name="dashEditImageUrl" type="url" placeholder="أو أدخل رابط صورة مخصص (URL)" class="w-full bg-[#21262b] rounded-xl p-2.5 border border-white/10 text-white outline-none focus:border-primary text-xs" />
       </div>
 
       <div class="pt-4 flex gap-3">

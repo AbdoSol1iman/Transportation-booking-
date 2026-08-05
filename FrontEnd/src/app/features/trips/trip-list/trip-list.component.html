@@ -209,7 +209,7 @@
             
             <!-- Card Image Background Header -->
             <div class="h-56 w-full relative overflow-hidden bg-zinc-900">
-              <img [src]="getTripImage(i)" alt="Trip Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+              <img [src]="getTripImage(trip, i)" (error)="$any($event.target).src = systemDefaultImages[0]" alt="Trip Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#161a1d] via-[#161a1d]/30 to-transparent"></div>
 
               <!-- Top Left Badges inside Image -->
@@ -252,6 +252,10 @@
               <div class="flex justify-between items-end mb-4">
                 <div>
                   <span class="text-xs font-bold text-zinc-400 block mb-1">RoadBooking VIP • {{ getVehicleTitle(trip) }}</span>
+                  <div class="flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
+                    <span class="material-symbols-outlined text-sm">calendar_month</span>
+                    <span>{{ formatDate(trip.departureTime) }}</span>
+                  </div>
                   <h3 class="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight">
                     {{ formatTime(trip.departureTime) }} - {{ formatTime(trip.arrivalTime) }}
                   </h3>
@@ -473,6 +477,22 @@
         </div>
       </div>
 
+      <div>
+        <label class="block mb-2 text-zinc-400">صورة الرحلة (اختر صورة افتراضية من النظام)</label>
+        <div class="grid grid-cols-4 gap-2 mb-2">
+          <div *ngFor="let imgUrl of systemDefaultImages"
+               (click)="newTrip.imageUrl = imgUrl"
+               class="relative h-16 rounded-xl overflow-hidden cursor-pointer border-2 transition-all"
+               [ngClass]="newTrip.imageUrl === imgUrl ? 'border-primary shadow-[0_0_12px_rgba(195,244,0,0.5)] scale-95' : 'border-white/10 opacity-60 hover:opacity-100'">
+            <img [src]="imgUrl" alt="System Image" class="w-full h-full object-cover" />
+            <div *ngIf="newTrip.imageUrl === imgUrl" class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-xl font-bold">check_circle</span>
+            </div>
+          </div>
+        </div>
+        <input [(ngModel)]="newTrip.imageUrl" name="imageUrl" type="url" placeholder="أو أدخل رابط صورة مخصص (URL)" class="w-full bg-[#21262b] rounded-xl p-2.5 border border-white/10 text-white outline-none focus:border-primary text-xs" />
+      </div>
+
       <div class="pt-4 flex gap-3">
         <button type="submit" [disabled]="isSubmitting" class="flex-1 py-3.5 bg-gradient-to-r from-primary to-indigo-600 text-white font-bold rounded-xl shadow-md hover:scale-[1.02] transition-all disabled:opacity-50">
           حفظ وإضافة الرحلة
@@ -538,6 +558,22 @@
           <label class="block mb-2 text-zinc-400">السعة الإجمالية</label>
           <input [(ngModel)]="editingTrip.capacity" name="editCapacity" type="number" min="1" class="w-full bg-[#21262b] rounded-xl p-3 border border-white/10 text-white outline-none focus:border-primary" />
         </div>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-zinc-400">صورة الرحلة (اختر صورة افتراضية من النظام)</label>
+        <div class="grid grid-cols-4 gap-2 mb-2">
+          <div *ngFor="let imgUrl of systemDefaultImages"
+               (click)="editingTrip.imageUrl = imgUrl"
+               class="relative h-16 rounded-xl overflow-hidden cursor-pointer border-2 transition-all"
+               [ngClass]="editingTrip.imageUrl === imgUrl ? 'border-primary shadow-[0_0_12px_rgba(195,244,0,0.5)] scale-95' : 'border-white/10 opacity-60 hover:opacity-100'">
+            <img [src]="imgUrl" alt="System Image" class="w-full h-full object-cover" />
+            <div *ngIf="editingTrip.imageUrl === imgUrl" class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-xl font-bold">check_circle</span>
+            </div>
+          </div>
+        </div>
+        <input [(ngModel)]="editingTrip.imageUrl" name="editImageUrl" type="url" placeholder="أو أدخل رابط صورة مخصص (URL)" class="w-full bg-[#21262b] rounded-xl p-2.5 border border-white/10 text-white outline-none focus:border-primary text-xs" />
       </div>
 
       <div class="pt-4 flex gap-3">

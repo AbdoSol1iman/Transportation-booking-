@@ -124,7 +124,7 @@
           
           <!-- Card Image Header -->
           <div class="h-52 w-full relative overflow-hidden bg-zinc-900">
-            <img [src]="getTripImage(i)" alt="Trip Bus Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+            <img [src]="getTripImage(trip, i)" (error)="$any($event.target).src = systemDefaultImages[0]" alt="Trip Bus Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
             <div class="absolute inset-0 bg-gradient-to-t from-[#161a1d] via-[#161a1d]/30 to-transparent"></div>
 
             <div class="absolute top-4 right-4 flex items-center gap-2 z-10">
@@ -139,6 +139,10 @@
             
             <div class="flex justify-between items-start mb-4">
               <div>
+                <div class="flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
+                  <span class="material-symbols-outlined text-sm">calendar_month</span>
+                  <span>{{ formatDate(trip.departureTime) }} ({{ formatTime(trip.departureTime) }})</span>
+                </div>
                 <span class="text-xs font-bold text-zinc-400 block mb-1">رحلة فورية • {{ getVehicleName(trip) }}</span>
                 <h3 class="text-xl font-black text-white">
                   {{ getRouteStart(trip) }} <span class="text-primary font-normal">➔</span> {{ getRouteEnd(trip) }}

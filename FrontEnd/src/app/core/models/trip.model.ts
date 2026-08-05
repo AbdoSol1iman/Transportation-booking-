@@ -15,6 +15,7 @@ export interface Trip {
   capacity: number;
   currentPassengers?: number;
   status: TripStatus;
+  imageUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 }
