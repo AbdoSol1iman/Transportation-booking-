@@ -25,6 +25,8 @@ const app = express();
 
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Rate Limiter: Increased limit for development & testing to prevent 429 Too Many Requests
 const limiter = rateLimit({
@@ -37,7 +39,34 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-app.use(express.json({ limit: '10kb' }));
+// Database connection middleware for Serverless compatibility
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected || mongoose.connection.readyState >= 1) {
+    isConnected = true;
+    return;
+  }
+  const MONGO_URI = process.env.MONGO_URI;
+  if (!MONGO_URI) {
+    throw new AppError('MONGO_URI environment variable is missing in Vercel settings!', 500);
+  }
+  await mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 });
+  isConnected = true;
+  console.log('✅ Connected successfully to MongoDB');
+  if (!process.env.VERCEL) {
+    startAutoCloseJob(60_000);
+  }
+};
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 setupSwagger(app);
 
@@ -73,22 +102,6 @@ app.all('*', (req, res, next) => {
 app.use(globalErrorHandler);
 
 const port = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI;
-
-if (!MONGO_URI) {
-  console.error('❌ MONGO_URI environment variable is missing in .env file!');
-} else {
-  mongoose
-    .connect(MONGO_URI)
-    .then(() => {
-      console.log('✅ Connected successfully to MongoDB');
-      // Start background job: auto-close expired / fully-booked trips every 60s
-      startAutoCloseJob(60_000);
-    })
-    .catch((err) => {
-      console.error('❌ MongoDB Connection Error:', err);
-    });
-}
 
 if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.listen(port, () => {
