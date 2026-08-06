@@ -1,0 +1,65 @@
+<div
+  #containerRef
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  class="relative w-full h-full min-h-[520px] max-h-[750px] overflow-hidden select-none cursor-grab active:cursor-grabbing"
+>
+  <!-- 3D World Stage Container -->
+  <div #stageRef class="hero-3d-stage">
+    <!-- Three.js WebGL Canvas -->
+    <canvas
+      #canvasRef
+      class="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-out"
+      [class.opacity-0]="!isLoaded"
+      [class.opacity-100]="isLoaded"
+    ></canvas>
+  </div>
+
+  <!-- Ambient Vignette Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-t from-[#0d1012] via-transparent to-[#0d1012]/80 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-[#0d1012]/90 via-transparent to-[#0d1012]/90 pointer-events-none"></div>
+
+  <!-- Dynamic 3D Hologram Station Cards (Tracked to 3D Nodes) -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden z-20">
+    <div
+      *ngFor="let st of stations"
+      class="absolute transform -translate-x-1/2 -translate-y-full transition-all duration-150 ease-out"
+      [style.left.px]="st.screenPos.x"
+      [style.top.px]="st.screenPos.y"
+      [class.opacity-0]="!st.screenPos.visible || !isLoaded"
+      [class.scale-75]="isMobile"
+      [class.scale-100]="!isMobile && st.screenPos.visible && isLoaded"
+      [class.opacity-100]="st.screenPos.visible && isLoaded"
+    >
+      <div
+        class="bg-[#161a1d]/90 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-2xl border border-[#c3f400]/40 shadow-[0_0_20px_rgba(195,244,0,0.25)] flex flex-col items-center gap-0.5 sm:gap-1 min-w-[130px] sm:min-w-[170px]"
+        dir="rtl"
+      >
+        <div class="flex items-center gap-1 w-full justify-between">
+          <span class="text-[10px] sm:text-[11px] font-black text-[#c3f400] tracking-wide">{{ st.badge }}</span>
+          <span class="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#c3f400] animate-pulse"></span>
+        </div>
+        <div class="text-[11px] sm:text-xs font-bold text-white tracking-tight">{{ st.name }}</div>
+        <div class="text-[9px] sm:text-[10px] text-zinc-400 font-medium">{{ st.detail }}</div>
+      </div>
+      
+      <!-- Card Connector Pin Indicator -->
+      <div class="w-2 h-2 rounded-full bg-[#c3f400] mx-auto -mt-1 shadow-[0_0_8px_#c3f400]"></div>
+    </div>
+  </div>
+
+  <!-- Loading Placeholder Shimmer -->
+  <div
+    *ngIf="!isLoaded"
+    class="absolute inset-0 flex flex-col items-center justify-center bg-[#0d1012] transition-opacity duration-700 pointer-events-none z-30"
+  >
+    <div class="w-12 h-12 rounded-full border-2 border-[#c3f400]/30 border-t-[#c3f400] animate-spin mb-4"></div>
+    <span class="font-cairo text-xs font-bold text-zinc-400 tracking-wider">جاري تجهيز المشهد التفاعلي ثلاثي الأبعاد...</span>
+  </div>
+
+  <!-- Subtle Interactive Hint -->
+  <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex items-center gap-2 px-3 py-1 bg-black/40 backdrop-blur-sm rounded-full border border-white/10 text-[11px] text-zinc-400 font-cairo">
+    <span class="w-1.5 h-1.5 rounded-full bg-[#c3f400]"></span>
+    <span>حرك الماوس لاستكشاف الطريق ثلاثي الأبعاد</span>
+  </div>
+</div>

@@ -1,1 +1,61 @@
-/* Home landing page styles */
+:host {
+  display: block;
+  width: 100%;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+.perspective-stage {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.depth-section {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+/* 3D Depth Layer System */
+.layer-bg {
+  transform: translateZ(-250px) scale(1.2);
+  will-change: transform;
+}
+
+.layer-mid {
+  transform: translateZ(-80px) scale(1.05);
+  will-change: transform;
+}
+
+.layer-fg {
+  transform: translateZ(40px) scale(0.98);
+  will-change: transform;
+}
+
+/* Floating 3D Glass Card Interactive Effect */
+.card-3d-glass {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+  will-change: transform, box-shadow;
+}
+
+.card-3d-glass:hover {
+  transform: translateZ(26px) rotateX(-3deg) rotateY(3deg) scale(1.02);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(195, 244, 0, 0.35);
+  border-color: rgba(195, 244, 0, 0.6);
+}
+
+/* Search Booking Widget Entrance Styles */
+.search-widget-3d {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    perspective: none;
+  }
+  .card-3d-glass:hover {
+    transform: none;
+  }
+}

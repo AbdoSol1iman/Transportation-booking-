@@ -1,9 +1,10 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
+import { Hero3dComponent } from '../../shared/components/hero-3d/hero-3d.component';
 import { StationService } from '../../core/services/station.service';
 import { TripService } from '../../core/services/trip.service';
 import { Station } from '../../core/models/station.model';
@@ -12,7 +13,7 @@ import { Trip } from '../../core/models/trip.model';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent, FooterComponent, Hero3dComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -25,6 +26,25 @@ export class HomeComponent implements OnInit {
   stations: Station[] = [];
   featuredTrips: Trip[] = [];
   isLoading = true;
+  scrollPercent = 0;
+  Math = Math;
+  mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    if (typeof window === 'undefined') return;
+    const { innerWidth, innerHeight } = window;
+    this.mouse.targetX = (event.clientX / innerWidth) * 2 - 1;
+    this.mouse.targetY = -(event.clientY / innerHeight) * 2 + 1;
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (typeof window !== 'undefined') {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      this.scrollPercent = docHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100)) : 0;
+    }
+  }
 
   selectedFromStation = '';
   selectedToStation = '';
@@ -64,8 +84,40 @@ export class HomeComponent implements OnInit {
     'https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80',
   ];
 
+  stationsCount = 0;
+  totalTrips = 0;
+  dailyTripsCount = 0;
+
   ngOnInit(): void {
     this.fetchData();
+  }
+
+  animateCounters(): void {
+    const targetStations = this.stations.length || 0;
+    const targetTrips = this.totalTrips || this.featuredTrips.length || 0;
+
+    const duration = 1200;
+    const steps = 30;
+    const interval = duration / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+
+      this.stationsCount = Math.floor(easeOut * targetStations);
+      this.dailyTripsCount = Math.floor(easeOut * targetTrips);
+
+      this.cdr.detectChanges();
+
+      if (step >= steps) {
+        clearInterval(timer);
+        this.stationsCount = targetStations;
+        this.dailyTripsCount = targetTrips;
+        this.cdr.detectChanges();
+      }
+    }, interval);
   }
 
   fetchData(): void {
@@ -74,6 +126,7 @@ export class HomeComponent implements OnInit {
     this.stationService.getStations().subscribe({
       next: (res) => {
         this.stations = res.data || [];
+        this.animateCounters();
         this.cdr.detectChanges();
       },
       error: () => {},
@@ -83,6 +136,8 @@ export class HomeComponent implements OnInit {
       next: (res) => {
         this.isLoading = false;
         this.featuredTrips = res.data || [];
+        this.totalTrips = res.total || res.data?.length || 0;
+        this.animateCounters();
         this.cdr.detectChanges();
       },
       error: () => {
