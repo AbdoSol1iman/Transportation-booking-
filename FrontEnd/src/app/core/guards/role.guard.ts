@@ -1,9 +1,11 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { AlertService } from '../services/alert.service';
 
 export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
+  const alertService = inject(AlertService);
   const router = inject(Router);
 
   if (!authService.isLoggedIn()) {
@@ -18,7 +20,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  alert('عفواً، ليس لديك صلاحية الوصول لهذه الصفحة.');
+  alertService.warning('غير مصرح', 'عفواً، ليس لديك صلاحية الوصول لهذه الصفحة.');
   router.navigate(['/']);
   return false;
 };

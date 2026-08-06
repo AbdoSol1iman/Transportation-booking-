@@ -30,6 +30,33 @@ export class HomeComponent implements OnInit {
   selectedToStation = '';
   selectedSeatsCount = 1;
 
+  faqs = [
+    {
+      question: 'هو لازم أروح الموقف بدري عشان ألحق كرسيا؟',
+      answer: 'تُؤ! تذكرتك محجوزة ومضمونة باسمك ومقعدك متأمن. بتوصل قبل معاد الرحلة بـ 10 دقائق بس، وتركب عربيتك ع الرايق من غير جَري ولا ملاهدة!',
+      open: true
+    },
+    {
+      question: 'ينفع أحجز كذا تذكرة ليّا ولأصحابي في نفس الرحلة؟',
+      answer: 'أكيد طبعاً! تقدر تختار عدد التذاكر اللي محتاجها دفعة واحدة وتحدد الكراسي اللي جنب بعض عشان تسافروا شلة واحدة وتعيشوا الأجواء.',
+      open: false
+    },
+    {
+      question: 'لو ظروفي اتغيرت ينفع ألغي الحجز أو أغير الميعاد؟',
+      answer: 'سهلة جداً! من صفحة "حجوزاتي" تقدر تلغي حجزك أو تعدله بسهولة طبقاً لسياسة الإلغاء قبل وقت الرحلة بمرونة كاملة.',
+      open: false
+    },
+    {
+      question: 'إزاي أعرف إن الأوتوبيس أو الميكروباص نضيف ومكيف؟',
+      answer: 'كل عربية مسجلة عندنا ليها بروفايل كامل بيوضح نوعها وموديلها وإمكانياتها (تكييف، USB، شاشات) بالإضافة لتقييمات الناس اللي سافروا فيها قبلك!',
+      open: false
+    }
+  ];
+
+  toggleFaq(index: number): void {
+    this.faqs[index].open = !this.faqs[index].open;
+  }
+
   cardImages: string[] = [
     'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80',

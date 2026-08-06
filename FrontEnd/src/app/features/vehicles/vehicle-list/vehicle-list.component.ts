@@ -1,29 +1,32 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { VehicleService } from '../../../core/services/vehicle.service';
+import { AlertService } from '../../../core/services/alert.service';
 import { Vehicle } from '../../../core/models/vehicle.model';
 
 @Component({
   selector: 'app-vehicle-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent],
   templateUrl: './vehicle-list.component.html',
   styleUrl: './vehicle-list.component.css',
 })
 export class VehicleListComponent implements OnInit {
   private vehicleService = inject(VehicleService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   vehicles: Vehicle[] = [];
   isLoading = true;
+  isSubmitting = false;
   errorMessage = '';
 
   showAddModal = false;
   showEditModal = false;
-  isSubmitting = false;
 
   newVehicle = {
     plateNumber: '',
@@ -65,7 +68,7 @@ export class VehicleListComponent implements OnInit {
 
   createVehicle(): void {
     if (!this.newVehicle.plateNumber || !this.newVehicle.model) {
-      alert('يرجى ملء رقم اللوحة والموديل.');
+      this.alertService.warning('تنبيه', 'يرجى ملء رقم اللوحة والموديل.');
       return;
     }
 
@@ -83,12 +86,12 @@ export class VehicleListComponent implements OnInit {
           this.isSubmitting = false;
           this.showAddModal = false;
           this.newVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus' };
-          alert('تم إضافة المركبة بنجاح!');
+          this.alertService.success('تم الإضافة! 🚌', 'تم إضافة المركبة بنجاح!');
           this.fetchVehicles();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر إضافة المركبة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة المركبة.');
           this.cdr.detectChanges();
         },
       });
@@ -123,26 +126,27 @@ export class VehicleListComponent implements OnInit {
         next: () => {
           this.isSubmitting = false;
           this.showEditModal = false;
-          alert('تم تعديل بيانات المركبة بنجاح!');
+          this.alertService.success('تم التعديل! ✨', 'تم تعديل بيانات المركبة بنجاح!');
           this.fetchVehicles();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر تعديل المركبة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر تعديل المركبة.');
           this.cdr.detectChanges();
         },
       });
   }
 
-  deleteVehicle(id: string): void {
-    if (confirm('هل أنت تأكد من حذف هذه المركبة؟')) {
+  async deleteVehicle(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف المركبة', 'هل أنت تأكد من حذف هذه المركبة؟', 'نعم، حذف');
+    if (isConfirmed) {
       this.vehicleService.deleteVehicle(id).subscribe({
         next: () => {
-          alert('تم حذف المركبة بنجاح!');
+          this.alertService.toastSuccess('تم حذف المركبة بنجاح!');
           this.fetchVehicles();
         },
         error: (err) => {
-          alert(err?.error?.message || 'تعذر حذف المركبة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر حذف المركبة.');
         },
       });
     }

@@ -12,6 +12,7 @@ import { UserService } from '../../core/services/user.service';
 import { RouteService } from '../../core/services/route.service';
 import { DriverService } from '../../core/services/driver.service';
 import { AuthService } from '../../core/services/auth.service';
+import { AlertService } from '../../core/services/alert.service';
 import { Station } from '../../core/models/station.model';
 import { Trip } from '../../core/models/trip.model';
 import { Vehicle } from '../../core/models/vehicle.model';
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
   private routeService = inject(RouteService);
   private driverService = inject(DriverService);
   public authService = inject(AuthService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   // Active Sidebar Tab
@@ -152,7 +154,7 @@ export class DashboardComponent implements OnInit {
   // Quick Action Handlers
   createStation(): void {
     if (!this.newStation.name || !this.newStation.city) {
-      alert('يرجى ملء اسم المحطة والمدينة.');
+      this.alertService.warning('تنبيه', 'يرجى ملء اسم المحطة والمدينة.');
       return;
     }
     this.isSubmitting = true;
@@ -167,25 +169,32 @@ export class DashboardComponent implements OnInit {
         this.isSubmitting = false;
         this.showAddStationModal = false;
         this.newStation = { name: '', city: '', address: '', latitude: 30.0444, longitude: 31.2357 };
-        alert('تم إضافة الموقف بنجاح!');
+        this.alertService.success('تم الإضافة! 📍', 'تم إضافة الموقف بنجاح!');
         this.fetchAllData();
       },
       error: (err) => {
         this.isSubmitting = false;
-        alert(err?.error?.message || 'تعذر إضافة الموقف.');
+        this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة الموقف.');
       },
     });
   }
 
-  deleteStation(id: string): void {
-    if (confirm('هل أنت تأكد من حذف المحطة؟')) {
-      this.stationService.deleteStation(id).subscribe(() => this.fetchAllData());
+  async deleteStation(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف المحطة', 'هل أنت تأكد من حذف المحطة؟', 'نعم، حذف');
+    if (isConfirmed) {
+      this.stationService.deleteStation(id).subscribe({
+        next: () => {
+          this.alertService.toastSuccess('تم حذف المحطة بنجاح');
+          this.fetchAllData();
+        },
+        error: (err) => this.alertService.error('تعذر الحذف', err?.error?.message || 'تعذر حذف المحطة')
+      });
     }
   }
 
   createVehicle(): void {
     if (!this.newVehicle.plateNumber || !this.newVehicle.model) {
-      alert('يرجى ملء رقم اللوحة والموديل.');
+      this.alertService.warning('تنبيه', 'يرجى ملء رقم اللوحة والموديل.');
       return;
     }
     this.isSubmitting = true;
@@ -199,19 +208,26 @@ export class DashboardComponent implements OnInit {
         this.isSubmitting = false;
         this.showAddVehicleModal = false;
         this.newVehicle = { plateNumber: '', model: '', capacity: 14, vehicleType: 'minibus', status: 'active' };
-        alert('تم إضافة المركبة بنجاح!');
+        this.alertService.success('تم الإضافة! 🚌', 'تم إضافة المركبة بنجاح!');
         this.fetchAllData();
       },
       error: (err) => {
         this.isSubmitting = false;
-        alert(err?.error?.message || 'تعذر إضافة المركبة.');
+        this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة المركبة.');
       },
     });
   }
 
-  deleteVehicle(id: string): void {
-    if (confirm('هل أنت تأكد من حذف المركبة؟')) {
-      this.vehicleService.deleteVehicle(id).subscribe(() => this.fetchAllData());
+  async deleteVehicle(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف المركبة', 'هل أنت تأكد من حذف المركبة؟', 'نعم، حذف');
+    if (isConfirmed) {
+      this.vehicleService.deleteVehicle(id).subscribe({
+        next: () => {
+          this.alertService.toastSuccess('تم حذف المركبة بنجاح');
+          this.fetchAllData();
+        },
+        error: (err) => this.alertService.error('تعذر الحذف', err?.error?.message || 'تعذر حذف المركبة')
+      });
     }
   }
 
@@ -244,12 +260,12 @@ export class DashboardComponent implements OnInit {
         next: () => {
           this.isSubmitting = false;
           this.showEditVehicleModal = false;
-          alert('تم تعديل بيانات المركبة بنجاح!');
+          this.alertService.success('تم التعديل! ✨', 'تم تعديل بيانات المركبة بنجاح!');
           this.fetchAllData();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر تعديل المركبة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر تعديل المركبة.');
           this.cdr.detectChanges();
         },
       });
@@ -257,7 +273,7 @@ export class DashboardComponent implements OnInit {
 
   createRoute(): void {
     if (!this.newRoute.startStationId || !this.newRoute.endStationId) {
-      alert('يرجى اختيار محطة القيام والوصول.');
+      this.alertService.warning('تنبيه', 'يرجى اختيار محطة القيام والوصول.');
       return;
     }
     this.isSubmitting = true;
@@ -271,25 +287,32 @@ export class DashboardComponent implements OnInit {
         this.isSubmitting = false;
         this.showAddRouteModal = false;
         this.newRoute = { startStationId: '', endStationId: '', distance: 150, estimatedDuration: 120 };
-        alert('تم إضافة خط السير بنجاح!');
+        this.alertService.success('تم الإضافة! 🛣️', 'تم إضافة خط السير بنجاح!');
         this.fetchAllData();
       },
       error: (err) => {
         this.isSubmitting = false;
-        alert(err?.error?.message || 'تعذر إضافة خط السير.');
+        this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة خط السير.');
       },
     });
   }
 
-  deleteRoute(id: string): void {
-    if (confirm('هل أنت تأكد من حذف خط السير؟')) {
-      this.routeService.deleteRoute(id).subscribe(() => this.fetchAllData());
+  async deleteRoute(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف خط السير', 'هل أنت تأكد من حذف خط السير؟', 'نعم، حذف');
+    if (isConfirmed) {
+      this.routeService.deleteRoute(id).subscribe({
+        next: () => {
+          this.alertService.toastSuccess('تم حذف خط السير بنجاح');
+          this.fetchAllData();
+        },
+        error: (err) => this.alertService.error('تعذر الحذف', err?.error?.message || 'تعذر حذف خط السير')
+      });
     }
   }
 
   createDriver(): void {
     if (!this.newDriver.fullName || !this.newDriver.phone || !this.newDriver.licenseNumber) {
-      alert('يرجى ملء الاسم الكامل والتليفون ورقم الرخصة.');
+      this.alertService.warning('تنبيه', 'يرجى ملء الاسم الكامل والتليفون ورقم الرخصة.');
       return;
     }
     this.isSubmitting = true;
@@ -303,25 +326,32 @@ export class DashboardComponent implements OnInit {
         this.isSubmitting = false;
         this.showAddDriverModal = false;
         this.newDriver = { fullName: '', phone: '', licenseNumber: '', experienceYears: 5 };
-        alert('تم إضافة السائق بنجاح!');
+        this.alertService.success('تم الإضافة! 👨‍✈️', 'تم إضافة السائق بنجاح!');
         this.fetchAllData();
       },
       error: (err) => {
         this.isSubmitting = false;
-        alert(err?.error?.message || 'تعذر إضافة السائق.');
+        this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة السائق.');
       },
     });
   }
 
-  deleteDriver(id: string): void {
-    if (confirm('هل أنت تأكد من حذف السائق؟')) {
-      this.driverService.deleteDriver(id).subscribe(() => this.fetchAllData());
+  async deleteDriver(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف السائق', 'هل أنت تأكد من حذف السائق؟', 'نعم، حذف');
+    if (isConfirmed) {
+      this.driverService.deleteDriver(id).subscribe({
+        next: () => {
+          this.alertService.toastSuccess('تم حذف السائق بنجاح');
+          this.fetchAllData();
+        },
+        error: (err) => this.alertService.error('تعذر الحذف', err?.error?.message || 'تعذر حذف السائق')
+      });
     }
   }
 
   createTrip(): void {
     if (!this.newTrip.routeId || !this.newTrip.vehicleId || !this.newTrip.driverId || !this.newTrip.departureTime || !this.newTrip.arrivalTime) {
-      alert('يرجى ملء جميع حقول الرحلة المطلوبة.');
+      this.alertService.warning('تنبيه', 'يرجى ملء جميع حقول الرحلة المطلوبة.');
       return;
     }
     this.isSubmitting = true;
@@ -338,14 +368,57 @@ export class DashboardComponent implements OnInit {
       next: () => {
         this.isSubmitting = false;
         this.showAddTripModal = false;
-        alert('تم إضافة الرحلة الجديدة بنجاح!');
+        this.alertService.success('تم الإضافة! 🚍', 'تم إضافة الرحلة الجديدة بنجاح!');
         this.fetchAllData();
       },
       error: (err) => {
         this.isSubmitting = false;
-        alert(err?.error?.message || 'تعذر إضافة الرحلة.');
+        this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة الرحلة.');
       },
     });
+  }
+
+  updateTrip(): void {
+    if (!this.editingTripId) return;
+    this.isSubmitting = true;
+    const depISO = this.editingTrip.departureTime ? new Date(this.editingTrip.departureTime).toISOString() : undefined;
+    const arrISO = this.editingTrip.arrivalTime ? new Date(this.editingTrip.arrivalTime).toISOString() : undefined;
+
+    this.tripService.updateTrip(this.editingTripId, {
+      routeId: this.editingTrip.routeId as any,
+      vehicleId: this.editingTrip.vehicleId as any,
+      driverId: this.editingTrip.driverId as any,
+      departureTime: depISO,
+      arrivalTime: arrISO,
+      price: Number(this.editingTrip.price),
+      capacity: Number(this.editingTrip.capacity),
+      imageUrl: this.editingTrip.imageUrl || this.systemDefaultImages[0],
+    }).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.showEditTripModal = false;
+        this.alertService.success('تم التعديل! ✨', 'تم تعديل بيانات الرحلة بنجاح!');
+        this.fetchAllData();
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        this.alertService.error('خطأ', err?.error?.message || 'تعذر تعديل الرحلة.');
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  async deleteTrip(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف الرحلة', 'هل أنت متأكد من حذف هذه الرحلة؟', 'نعم، حذف');
+    if (isConfirmed) {
+      this.tripService.deleteTrip(id).subscribe({
+        next: () => {
+          this.alertService.toastSuccess('تم حذف الرحلة بنجاح');
+          this.fetchAllData();
+        },
+        error: (err) => this.alertService.error('تعذر الحذف', err?.error?.message || 'تعذر حذف الرحلة')
+      });
+    }
   }
 
   formatForDateTimeLocal(dateStr?: string | Date): string {
@@ -398,42 +471,6 @@ export class DashboardComponent implements OnInit {
     };
     this.showEditTripModal = true;
     this.cdr.detectChanges();
-  }
-
-  updateTrip(): void {
-    if (!this.editingTripId) return;
-    this.isSubmitting = true;
-    const depISO = this.editingTrip.departureTime ? new Date(this.editingTrip.departureTime).toISOString() : undefined;
-    const arrISO = this.editingTrip.arrivalTime ? new Date(this.editingTrip.arrivalTime).toISOString() : undefined;
-
-    this.tripService.updateTrip(this.editingTripId, {
-      routeId: this.editingTrip.routeId as any,
-      vehicleId: this.editingTrip.vehicleId as any,
-      driverId: this.editingTrip.driverId as any,
-      departureTime: depISO,
-      arrivalTime: arrISO,
-      price: Number(this.editingTrip.price),
-      capacity: Number(this.editingTrip.capacity),
-      imageUrl: this.editingTrip.imageUrl || this.systemDefaultImages[0],
-    }).subscribe({
-      next: () => {
-        this.isSubmitting = false;
-        this.showEditTripModal = false;
-        alert('تم تعديل بيانات الرحلة بنجاح!');
-        this.fetchAllData();
-      },
-      error: (err) => {
-        this.isSubmitting = false;
-        alert(err?.error?.message || 'تعذر تعديل الرحلة.');
-        this.cdr.detectChanges();
-      },
-    });
-  }
-
-  deleteTrip(id: string): void {
-    if (confirm('هل أنت متأكد من حذف هذه الرحلة؟')) {
-      this.tripService.deleteTrip(id).subscribe(() => this.fetchAllData());
-    }
   }
 
   // Display Helper Methods

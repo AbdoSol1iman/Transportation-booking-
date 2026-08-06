@@ -7,6 +7,7 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
 import { TripService } from '../../../core/services/trip.service';
 import { BookingService } from '../../../core/services/booking.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { AlertService } from '../../../core/services/alert.service';
 import { Trip } from '../../../core/models/trip.model';
 
 @Component({
@@ -22,6 +23,7 @@ export class BookingFormComponent implements OnInit {
   private tripService = inject(TripService);
   private bookingService = inject(BookingService);
   private authService = inject(AuthService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   tripId: string | null = null;
@@ -148,13 +150,13 @@ export class BookingFormComponent implements OnInit {
 
   submitBooking(): void {
     if (!this.authService.isLoggedIn()) {
-      alert('يرجى تسجيل الدخول أولاً لإتمام الحجز.');
+      this.alertService.warning('تنبيه', 'يرجى تسجيل الدخول أولاً لإتمام الحجز.');
       this.router.navigate(['/login']);
       return;
     }
 
     if (!this.tripId) {
-      alert('الرحلة غير محددة بشكل صحيح.');
+      this.alertService.error('خطأ', 'الرحلة غير محددة بشكل صحيح.');
       return;
     }
 
@@ -175,12 +177,13 @@ export class BookingFormComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.isSubmitting = false;
-          alert('تم إنشاء وتأكيد حجزك بنجاح!');
+          this.alertService.success('تم الحجز بنجاح! 🎫', 'تم إنشاء وتأكيد حجزك بنجاح!');
           this.router.navigate(['/bookings']);
         },
         error: (err) => {
           this.isSubmitting = false;
           this.errorMessage = err?.error?.message || 'تعذر إتمام الحجز. يرجى التأكد من تسجيل الدخول والمحاولة مجدداً.';
+          this.alertService.error('تعذر إتمام الحجز', this.errorMessage);
           this.cdr.detectChanges();
         },
       });

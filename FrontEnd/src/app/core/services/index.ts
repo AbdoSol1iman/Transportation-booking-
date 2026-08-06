@@ -5,3 +5,4 @@ export * from './booking.service';
 export * from './vehicle.service';
 export * from './route.service';
 export * from './driver.service';
+export * from './alert.service';

@@ -1,29 +1,32 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { StationService } from '../../../core/services/station.service';
+import { AlertService } from '../../../core/services/alert.service';
 import { Station } from '../../../core/models/station.model';
 
 @Component({
   selector: 'app-station-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent],
   templateUrl: './station-list.component.html',
   styleUrl: './station-list.component.css',
 })
 export class StationListComponent implements OnInit {
   private stationService = inject(StationService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   stations: Station[] = [];
   isLoading = true;
+  isSubmitting = false;
   errorMessage = '';
 
   showAddModal = false;
   showEditModal = false;
-  isSubmitting = false;
 
   newStation = {
     name: '',
@@ -66,7 +69,7 @@ export class StationListComponent implements OnInit {
 
   createStation(): void {
     if (!this.newStation.name || !this.newStation.city) {
-      alert('يرجى ملء اسم المحطة والمدينة.');
+      this.alertService.warning('تنبيه', 'يرجى ملء اسم المحطة والمدينة.');
       return;
     }
 
@@ -85,12 +88,12 @@ export class StationListComponent implements OnInit {
           this.isSubmitting = false;
           this.showAddModal = false;
           this.newStation = { name: '', city: '', address: '', latitude: 30.0444, longitude: 31.2357 };
-          alert('تم إضافة المحطة بنجاح!');
+          this.alertService.success('تم الإضافة! 📍', 'تم إضافة المحطة بنجاح!');
           this.fetchStations();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر إضافة المحطة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة المحطة.');
           this.cdr.detectChanges();
         },
       });
@@ -131,26 +134,27 @@ export class StationListComponent implements OnInit {
         next: () => {
           this.isSubmitting = false;
           this.showEditModal = false;
-          alert('تم تعديل بيانات المحطة بنجاح!');
+          this.alertService.success('تم التعديل! ✨', 'تم تعديل بيانات المحطة بنجاح!');
           this.fetchStations();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر تعديل المحطة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر تعديل المحطة.');
           this.cdr.detectChanges();
         },
       });
   }
 
-  deleteStation(id: string): void {
-    if (confirm('هل أنت متاكد من حذف هذه المحطة؟')) {
+  async deleteStation(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف المحطة', 'هل أنت متاكد من حذف هذه المحطة؟', 'نعم، حذف');
+    if (isConfirmed) {
       this.stationService.deleteStation(id).subscribe({
         next: () => {
-          alert('تم حذف المحطة بنجاح!');
+          this.alertService.toastSuccess('تم حذف المحطة بنجاح!');
           this.fetchStations();
         },
         error: (err) => {
-          alert(err?.error?.message || 'تعذر حذف المحطة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر حذف المحطة.');
         },
       });
     }

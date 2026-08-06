@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { BookingService } from '../../../core/services/booking.service';
+import { AlertService } from '../../../core/services/alert.service';
 import { Booking } from '../../../core/models/booking.model';
 
 @Component({
@@ -15,6 +16,7 @@ import { Booking } from '../../../core/models/booking.model';
 })
 export class BookingListComponent implements OnInit {
   private bookingService = inject(BookingService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   bookings: Booking[] = [];
@@ -49,14 +51,16 @@ export class BookingListComponent implements OnInit {
     });
   }
 
-  cancelBooking(id: string): void {
-    if (confirm('هل أنت تأكد من إلغاء هذا الحجز؟')) {
+  async cancelBooking(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('تأكيد إلغاء الحجز', 'هل أنت تأكد من إلغاء هذا الحجز؟', 'نعم، إلغاء الحجز');
+    if (isConfirmed) {
       this.bookingService.cancelBooking(id).subscribe({
         next: () => {
+          this.alertService.toastSuccess('تم إلغاء الحجز بنجاح');
           this.fetchMyBookings();
         },
         error: (err) => {
-          alert(err?.error?.message || 'تعذر إلغاء الحجز حالياً.');
+          this.alertService.error('تعذر إلغاء الحجز', err?.error?.message || 'تعذر إلغاء الحجز حالياً.');
         }
       });
     }

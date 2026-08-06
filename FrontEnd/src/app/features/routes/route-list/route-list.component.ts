@@ -1,23 +1,26 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { RouteService } from '../../../core/services/route.service';
 import { StationService } from '../../../core/services/station.service';
+import { AlertService } from '../../../core/services/alert.service';
 import { Route } from '../../../core/models/route.model';
 import { Station } from '../../../core/models/station.model';
 
 @Component({
   selector: 'app-route-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent],
   templateUrl: './route-list.component.html',
   styleUrl: './route-list.component.css',
 })
 export class RouteListComponent implements OnInit {
   private routeService = inject(RouteService);
   private stationService = inject(StationService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   routesList: Route[] = [];
@@ -79,12 +82,12 @@ export class RouteListComponent implements OnInit {
 
   createRoute(): void {
     if (!this.newRoute.startStationId || !this.newRoute.endStationId) {
-      alert('يرجى اختيار محطة القيام ومحطة الوصول.');
+      this.alertService.warning('تنبيه', 'يرجى اختيار محطة القيام ومحطة الوصول.');
       return;
     }
 
     if (this.newRoute.startStationId === this.newRoute.endStationId) {
-      alert('لا يمكن أن تكون محطة القيام هي نفسها محطة الوصول.');
+      this.alertService.warning('تنبيه', 'لا يمكن أن تكون محطة القيام هي نفسها محطة الوصول.');
       return;
     }
 
@@ -102,12 +105,12 @@ export class RouteListComponent implements OnInit {
           this.isSubmitting = false;
           this.showAddModal = false;
           this.newRoute = { startStationId: '', endStationId: '', distance: 150, estimatedDuration: 120 };
-          alert('تم إضافة خط السير الجديد بنجاح!');
+          this.alertService.success('تم الإضافة! 🛣️', 'تم إضافة خط السير الجديد بنجاح!');
           this.fetchRoutes();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر إضافة خط السير.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة خط السير.');
           this.cdr.detectChanges();
         },
       });
@@ -143,26 +146,27 @@ export class RouteListComponent implements OnInit {
         next: () => {
           this.isSubmitting = false;
           this.showEditModal = false;
-          alert('تم تعديل خط السير بنجاح!');
+          this.alertService.success('تم التعديل! ✨', 'تم تعديل خط السير بنجاح!');
           this.fetchRoutes();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر تعديل خط السير.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر تعديل خط السير.');
           this.cdr.detectChanges();
         },
       });
   }
 
-  deleteRoute(id: string): void {
-    if (confirm('هل أنت متاكد من حذف خط السير هذا؟')) {
+  async deleteRoute(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف خط السير', 'هل أنت متاكد من حذف خط السير هذا؟', 'نعم، حذف');
+    if (isConfirmed) {
       this.routeService.deleteRoute(id).subscribe({
         next: () => {
-          alert('تم حذف خط السير بنجاح!');
+          this.alertService.toastSuccess('تم حذف خط السير بنجاح!');
           this.fetchRoutes();
         },
         error: (err) => {
-          alert(err?.error?.message || 'تعذر حذف خط السير.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر حذف خط السير.');
         },
       });
     }

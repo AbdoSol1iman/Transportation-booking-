@@ -1,20 +1,23 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { DriverService } from '../../../core/services/driver.service';
+import { AlertService } from '../../../core/services/alert.service';
 import { Driver } from '../../../core/models/driver.model';
 
 @Component({
   selector: 'app-driver-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent],
   templateUrl: './driver-list.component.html',
   styleUrl: './driver-list.component.css',
 })
 export class DriverListComponent implements OnInit {
   private driverService = inject(DriverService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   drivers: Driver[] = [];
@@ -51,12 +54,11 @@ export class DriverListComponent implements OnInit {
     this.driverService.getDrivers().subscribe({
       next: (res) => {
         this.isLoading = false;
-        this.drivers = res.data || [];
+        this.drivers = res?.data || [];
         this.cdr.detectChanges();
       },
       error: (err) => {
         this.isLoading = false;
-        this.drivers = [];
         this.errorMessage = err?.error?.message || 'تعذر جلب السائقين من الباك إند.';
         this.cdr.detectChanges();
       },
@@ -65,7 +67,7 @@ export class DriverListComponent implements OnInit {
 
   createDriver(): void {
     if (!this.newDriver.fullName || !this.newDriver.phone || !this.newDriver.licenseNumber) {
-      alert('يرجى ملء الاسم الكامل، رقم الهاتف، ورقم الرخصة.');
+      this.alertService.warning('تنبيه', 'يرجى ملء الاسم الكامل، رقم الهاتف، ورقم الرخصة.');
       return;
     }
 
@@ -83,12 +85,12 @@ export class DriverListComponent implements OnInit {
           this.isSubmitting = false;
           this.showAddModal = false;
           this.newDriver = { fullName: '', phone: '', licenseNumber: '', experienceYears: 5 };
-          alert('تم إضافة السائق جديد بنجاح!');
+          this.alertService.success('تم الإضافة! 👨‍✈️', 'تم إضافة السائق جديد بنجاح!');
           this.fetchDrivers();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر إضافة السائق.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر إضافة السائق.');
           this.cdr.detectChanges();
         },
       });
@@ -121,26 +123,27 @@ export class DriverListComponent implements OnInit {
         next: () => {
           this.isSubmitting = false;
           this.showEditModal = false;
-          alert('تم تعديل بيانات السائق بنجاح!');
+          this.alertService.success('تم التعديل! ✨', 'تم تعديل بيانات السائق بنجاح!');
           this.fetchDrivers();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر تعديل السائق.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر تعديل السائق.');
           this.cdr.detectChanges();
         },
       });
   }
 
-  deleteDriver(id: string): void {
-    if (confirm('هل أنت متاكد من حذف السائق من السجلات؟')) {
+  async deleteDriver(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف السائق', 'هل أنت متاكد من حذف السائق من السجلات؟', 'نعم، حذف');
+    if (isConfirmed) {
       this.driverService.deleteDriver(id).subscribe({
         next: () => {
-          alert('تم حذف السائق بنجاح!');
+          this.alertService.toastSuccess('تم حذف السائق بنجاح!');
           this.fetchDrivers();
         },
         error: (err) => {
-          alert(err?.error?.message || 'تعذر حذف السائق.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر حذف السائق.');
         },
       });
     }

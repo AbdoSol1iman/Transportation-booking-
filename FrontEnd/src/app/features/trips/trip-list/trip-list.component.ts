@@ -11,6 +11,7 @@ import { DriverService } from '../../../core/services/driver.service';
 import { StationService } from '../../../core/services/station.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ReviewService } from '../../../core/services/review.service';
+import { AlertService } from '../../../core/services/alert.service';
 import { Trip } from '../../../core/models/trip.model';
 import { Route } from '../../../core/models/route.model';
 import { Vehicle } from '../../../core/models/vehicle.model';
@@ -32,6 +33,7 @@ export class TripListComponent implements OnInit {
   private stationService = inject(StationService);
   public authService = inject(AuthService);
   private reviewService = inject(ReviewService);
+  private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
 
   trips: Trip[] = [];
@@ -373,7 +375,7 @@ export class TripListComponent implements OnInit {
 
   createTrip(): void {
     if (!this.newTrip.routeId || !this.newTrip.vehicleId || !this.newTrip.driverId || !this.newTrip.departureTime || !this.newTrip.arrivalTime) {
-      alert('يرجى اختيار خط السير والمركبة والسائق وميعاد المغادرة والوصول.');
+      this.alertService.warning('تنبيه', 'يرجى اختيار خط السير والمركبة والسائق وميعاد المغادرة والوصول.');
       return;
     }
 
@@ -397,12 +399,12 @@ export class TripListComponent implements OnInit {
         next: () => {
           this.isSubmitting = false;
           this.showAddModal = false;
-          alert('تم إنشاء وتمرير الرحلة الجديدة بنجاح!');
+          this.alertService.success('تم الإضافة! 🚍', 'تم إنشاء وتمرير الرحلة الجديدة بنجاح!');
           this.fetchTrips();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر إنشاء الرحلة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر إنشاء الرحلة.');
           this.cdr.detectChanges();
         },
       });
@@ -473,26 +475,27 @@ export class TripListComponent implements OnInit {
         next: () => {
           this.isSubmitting = false;
           this.showEditModal = false;
-          alert('تم تعديل بيانات الرحلة بنجاح!');
+          this.alertService.success('تم التعديل! ✨', 'تم تعديل بيانات الرحلة بنجاح!');
           this.fetchTrips();
         },
         error: (err) => {
           this.isSubmitting = false;
-          alert(err?.error?.message || 'تعذر تعديل الرحلة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر تعديل الرحلة.');
           this.cdr.detectChanges();
         },
       });
   }
 
-  deleteTrip(id: string): void {
-    if (confirm('هل أنت متاكد من إغلاق وحذف هذه الرحلة؟')) {
+  async deleteTrip(id: string): Promise<void> {
+    const isConfirmed = await this.alertService.confirm('حذف الرحلة', 'هل أنت متاكد من إغلاق وحذف هذه الرحلة؟', 'نعم، حذف الرحلة');
+    if (isConfirmed) {
       this.tripService.deleteTrip(id).subscribe({
         next: () => {
-          alert('تم حذف الرحلة بنجاح!');
+          this.alertService.toastSuccess('تم حذف الرحلة بنجاح!');
           this.fetchTrips();
         },
         error: (err) => {
-          alert(err?.error?.message || 'تعذر حذف الرحلة.');
+          this.alertService.error('خطأ', err?.error?.message || 'تعذر حذف الرحلة.');
         },
       });
     }
